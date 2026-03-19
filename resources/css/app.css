@@ -1,0 +1,143 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --cobalt-bg: #193549;
+    --cobalt-surface: #102a43;
+    --cobalt-overlay: #1f4662;
+    --cobalt-border: #0f2234;
+    --cobalt-text: #e6f1ff;
+    --cobalt-text-muted: #8fb3d9;
+
+    --color-white: #f8fbff;
+    --color-black: #020817;
+
+    --color-zinc-50: #e6edf7;
+    --color-zinc-100: #d3e1f3;
+    --color-zinc-200: #b4cce8;
+    --color-zinc-300: #96b7dd;
+    --color-zinc-400: #799fcf;
+    --color-zinc-500: #5c87c1;
+    --color-zinc-600: #466ca5;
+    --color-zinc-700: #335183;
+    --color-zinc-800: #233961;
+    --color-zinc-900: #182947;
+    --color-zinc-950: #0d1426;
+
+    --color-neutral-50: #e5eff9;
+    --color-neutral-100: #cedef2;
+    --color-neutral-200: #abc4e6;
+    --color-neutral-300: #88aad9;
+    --color-neutral-400: #688fc9;
+    --color-neutral-500: #4c74b5;
+    --color-neutral-600: #395d97;
+    --color-neutral-700: #2c4876;
+    --color-neutral-800: #1f3356;
+    --color-neutral-900: #15233a;
+    --color-neutral-950: #0c1523;
+
+    --color-stone-50: #e4eef8;
+    --color-stone-100: #cad9ed;
+    --color-stone-200: #a6bedf;
+    --color-stone-300: #80a2d0;
+    --color-stone-400: #6087c1;
+    --color-stone-500: #476fae;
+    --color-stone-600: #375991;
+    --color-stone-700: #2a4370;
+    --color-stone-800: #1e3051;
+    --color-stone-900: #142034;
+    --color-stone-950: #0b1320;
+
+    --color-accent: #ffc600;
+    --color-accent-content: #0f2234;
+    --color-accent-foreground: #0f2234;
+}
+
+@layer theme {
+    .dark {
+        --color-accent: #ffc600;
+        --color-accent-content: #132f47;
+        --color-accent-foreground: #132f47;
+    }
+}
+
+@layer base {
+    :root {
+        color: var(--cobalt-text);
+        background-color: var(--cobalt-bg);
+    }
+
+    body {
+        background-color: var(--cobalt-bg);
+        color: var(--cobalt-text);
+    }
+
+    a {
+        color: var(--color-accent);
+    }
+
+    a:hover {
+        color: color-mix(in srgb, var(--color-accent) 80%, white 20%);
+    }
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: color-mix(in srgb, var(--cobalt-border) 65%, transparent 35%);
+    }
+
+    [data-flux-control] {
+        background-color: var(--cobalt-surface);
+        border-color: color-mix(in srgb, var(--cobalt-border) 80%, transparent 20%);
+        color: var(--cobalt-text);
+    }
+
+    [data-flux-control]::placeholder {
+        color: var(--cobalt-text-muted);
+    }
+
+    [data-flux-button] {
+        font-weight: 600;
+    }
+
+    [data-flux-sidebar],
+    [data-flux-header] {
+        background-color: color-mix(in srgb, var(--cobalt-overlay) 85%, black 15%);
+        color: var(--cobalt-text);
+        border-color: color-mix(in srgb, var(--cobalt-border) 85%, transparent 15%);
+    }
+
+    [data-flux-navlist] {
+        background-color: color-mix(in srgb, var(--cobalt-surface) 92%, black 8%);
+        color: var(--cobalt-text);
+    }
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */
