@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->string('code',10)->unique();
-            $table->string('name',100);
-            $table->enum('type', ['store','warehous','hq'])->default('store');
-            $table->string('address',150)->nullable();
-            $table->string('phone',25)->nullable();
+            $table->string('code', 10)->unique();
+            $table->string('name', 100);
+            $table->foreignId('branch_type_id')->constrained('branch_types')->cascadeOnDelete();
+            $table->string('address', 150)->nullable();
+            $table->string('phone', 25)->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });
