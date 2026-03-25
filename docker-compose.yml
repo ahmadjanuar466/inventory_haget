@@ -21,7 +21,7 @@ services:
     container_name: inventory_app
     restart: unless-stopped
     working_dir: /var/www/html
-    user: "${UID}:${GID}"
+    user: "${DOCKER_UID}:${DOCKER_UID}"
     volumes:
       - ./:/var/www/html
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini

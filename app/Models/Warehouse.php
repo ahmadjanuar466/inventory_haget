@@ -20,4 +20,9 @@ class Warehouse extends Model
     {
         return $this->belongsTo(Branches::class, 'branch_id');
     }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stocks::class, 'warehouse_id');
+    }
 }

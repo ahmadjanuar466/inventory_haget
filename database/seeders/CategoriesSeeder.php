@@ -14,7 +14,6 @@ class CategoriesSeeder extends Seeder
     public function run(): void
     {
         //
-        Categories::truncate();
         $row = [
             ['parent_id' => null, 'code' => 'CAT-RAW', 'name' => 'Bahan Baku'],
             ['parent_id' => null, 'code' => 'CAT-FG', 'name' => 'Barang Jadi'],

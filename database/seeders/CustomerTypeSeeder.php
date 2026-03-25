@@ -2,28 +2,26 @@
 
 namespace Database\Seeders;
 
-use App\Models\Branches;
-use App\Models\BranchType;
-use App\Models\Warehouse;
+use App\Models\CustomerType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class BranchTypeSeeder extends Seeder
+class CustomerTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-
         //
         $row = [
-            ['name' => 'store'],
-            ['name' => 'warehouse'],
-            ['name' => 'head office'],
+            ['name' => 'regular'],
+            ['name' => 'regular'],
+            ['name' => 'member'],
+            ['name' => 'reseller']
         ];
         foreach ($row as $key => $value) {
-            BranchType::create($value);
+            CustomerType::create($value);
         }
     }
 }

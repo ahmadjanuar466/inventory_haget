@@ -14,13 +14,12 @@ class WarehouseSeeder extends Seeder
     public function run(): void
     {
         //
-        Warehouse::truncate();
         $row = [
             'branch_id' => '1',
             'code' => 'HGT-STORE-1',
             'name' => 'Store Aster Village',
-            'is_active' = '1'
+            'is_active' => '1'
         ];
-        $warehouse = Warehouse::create($row);
+        Warehouse::create($row);
     }
 }

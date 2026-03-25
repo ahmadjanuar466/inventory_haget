@@ -15,13 +15,16 @@ class UnitsSeeder extends Seeder
     public function run(): void
     {
         //
-        Units::truncate();
         $row = [
             ['code' => 'PCS', 'name' => 'Pcs'],
             ['code' => 'KG', 'name' => 'Kilogram'],
             ['code' => 'LTR', 'name' => 'Liter'],
             ['code' => 'PACK', 'name' => 'Pack'],
             ['code' => 'BOX', 'name' => 'Box'],
+            ['code' => 'MLTR', 'name' => 'Mili Liter']
         ];
+        foreach ($row as $key => $value) {
+            Units::create($value);
+        }
     }
 }
