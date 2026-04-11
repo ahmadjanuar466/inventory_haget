@@ -1,0 +1,17 @@
+.git
+.fleet
+.idea
+.nova
+.vscode
+.zed
+node_modules
+vendor
+public/build
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+docker-compose.override.yml
+.env
+.env.backup
+.env.production
