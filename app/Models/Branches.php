@@ -15,12 +15,14 @@ class Branches extends Model
         'phone',
         'status',
     ];
+
     public $timestamps = true;
 
     public function warehouse()
     {
-        return $this->hasMany(Warehouse::class);
+        return $this->hasMany(Warehouse::class, 'branch_id');
     }
+
     public function branchtype()
     {
         return $this->belongsTo(BranchType::class, 'branch_type_id');

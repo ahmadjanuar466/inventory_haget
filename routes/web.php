@@ -8,6 +8,7 @@ use App\Livewire\Settings\TwoFactor;
 use App\Livewire\Usermanagement\PermissionsIndex;
 use App\Livewire\Usermanagement\RolesIndex;
 use App\Livewire\Usermanagement\UsersIndex;
+use App\Livewire\Warehouse\WarehousesIndex;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -27,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('appearance.edit');
 
     Route::get('master/branches', BranchesIndex::class)->name('master.branches');
+    Route::get('master/warehouses', WarehousesIndex::class)->name('master.warehouses');
 
     Route::get('user-management/users', UsersIndex::class)->name('user-management.users');
     Route::get('user-management/roles', RolesIndex::class)->name('user-management.roles');

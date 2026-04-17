@@ -12,6 +12,10 @@ services:
       APP_ENV: local
       APP_DEBUG: "true"
       APP_URL: http://localhost:8081
+      WWWUSER: "${WWWUSER:-1000}"
+      WWWGROUP: "${WWWGROUP:-1000}"
+      ALLOW_WORLD_WRITABLE_STORAGE: "${ALLOW_WORLD_WRITABLE_STORAGE:-true}"
+      FIX_APP_SOURCE_PERMISSIONS: "${FIX_APP_SOURCE_PERMISSIONS:-true}"
       APP_KEY: base64:Xd0SFur+yaLzDLkZfuAHkYR/kpb9L4wNaX1zXyk5yT8=
       APP_LOCALE: en
       APP_FALLBACK_LOCALE: en

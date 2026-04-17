@@ -26,6 +26,11 @@
                     :current="request()->routeIs('master.branches')" wire:navigate>
                     {{ __('Branches') }}
                 </flux:navlist.item>
+
+                <flux:navlist.item icon="archive-box" :href="route('master.warehouses')"
+                    :current="request()->routeIs('master.warehouses')" wire:navigate>
+                    {{ __('Warehouses') }}
+                </flux:navlist.item>
             </flux:navlist.group>
 
             <flux:navlist.group :heading="__('User Management')">

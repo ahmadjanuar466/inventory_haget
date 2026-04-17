@@ -1,35 +1,35 @@
 <?php
 
-namespace App\Livewire\Branch;
+namespace App\Livewire\Warehouse;
 
-use App\Livewire\Branch\Traits\Delete;
-use App\Livewire\Branch\Traits\Insert;
-use App\Livewire\Branch\Traits\Update;
-use App\Models\BranchType;
-use App\Services\Branch\BranchServices;
+use App\Livewire\Warehouse\Traits\Delete;
+use App\Livewire\Warehouse\Traits\Insert;
+use App\Livewire\Warehouse\Traits\Update;
+use App\Models\Branches;
+use App\Services\Warehouse\WarehouseServices;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class BranchesIndex extends Component
+class WarehousesIndex extends Component
 {
     use Delete;
     use Insert;
     use Update;
     use WithPagination;
 
-    protected BranchServices $branchServices;
+    protected WarehouseServices $warehouseServices;
 
     public array $breadcumb = [
         ['title' => 'Dashboard', 'routes' => 'dashboard'],
         ['title' => 'Master', 'routes' => ''],
-        ['title' => 'Branches', 'routes' => ''],
+        ['title' => 'Warehouses', 'routes' => ''],
     ];
 
     public array $pageTitle = [
-        'title' => 'Branch Management',
-        'subtitle' => 'Manage branch codes, locations, contact details, branch types, and active status.',
+        'title' => 'Warehouse Management',
+        'subtitle' => 'Manage warehouse codes, branch ownership, names, and active status.',
     ];
 
     public string $search = '';
@@ -39,26 +39,22 @@ class BranchesIndex extends Component
     public array $perPageOptions = [10, 20, 30, 40, 50];
 
     public array $filters = [
-        'branch_type_id' => '',
-        'status' => '',
+        'branch_id' => '',
+        'is_active' => '',
     ];
 
     public array $createForm = [
+        'branch_id' => '',
         'code' => '',
         'name' => '',
-        'branch_type_id' => '',
-        'address' => '',
-        'phone' => '',
-        'status' => '1',
+        'is_active' => '1',
     ];
 
     public array $editForm = [
+        'branch_id' => '',
         'code' => '',
         'name' => '',
-        'branch_type_id' => '',
-        'address' => '',
-        'phone' => '',
-        'status' => '1',
+        'is_active' => '1',
     ];
 
     public bool $showCreateModal = false;
@@ -67,9 +63,9 @@ class BranchesIndex extends Component
 
     public bool $showDeleteModal = false;
 
-    public ?int $editingBranchId = null;
+    public ?int $editingWarehouseId = null;
 
-    public ?int $deletingBranchId = null;
+    public ?int $deletingWarehouseId = null;
 
     public ?string $createFeedback = '';
 
@@ -84,13 +80,13 @@ class BranchesIndex extends Component
     protected $queryString = [
         'search' => ['except' => ''],
         'perPage' => ['except' => 10],
-        'filters.branch_type_id' => ['except' => ''],
-        'filters.status' => ['except' => ''],
+        'filters.branch_id' => ['except' => ''],
+        'filters.is_active' => ['except' => ''],
     ];
 
-    public function boot(BranchServices $branchServices): void
+    public function boot(WarehouseServices $warehouseServices): void
     {
-        $this->branchServices = $branchServices;
+        $this->warehouseServices = $warehouseServices;
     }
 
     public function updatingSearch(): void
@@ -117,13 +113,13 @@ class BranchesIndex extends Component
             $this->perPage = $perPage;
         }
 
-        return view('livewire.branch.branches-index', [
-            'branches' => $this->branchServices->paginateBranches($this->search, $perPage, $this->filters),
-            'branchTypes' => BranchType::query()->orderBy('name')->get(),
+        return view('livewire.warehouse.warehouses-index', [
+            'warehouses' => $this->warehouseServices->paginateWarehouses($this->search, $perPage, $this->filters),
+            'branchOptions' => Branches::query()->orderBy('name')->get(),
             'perPageOptions' => $this->perPageOptions,
             'breadcumbs' => $this->breadcumb,
         ])->layout('components.layouts.app', [
-            'title' => __('Branch Management'),
+            'title' => __('Warehouse Management'),
         ]);
     }
 
@@ -132,38 +128,34 @@ class BranchesIndex extends Component
         return $this->rulesFor('createForm');
     }
 
-    protected function updateRules(int $branchId): array
+    protected function updateRules(int $warehouseId): array
     {
-        return $this->rulesFor('editForm', $branchId);
+        return $this->rulesFor('editForm', $warehouseId);
     }
 
-    protected function rulesFor(string $form, ?int $branchId = null): array
+    protected function rulesFor(string $form, ?int $warehouseId = null): array
     {
-        $codeRule = Rule::unique('branches', 'code');
+        $codeRule = Rule::unique('warehouses', 'code');
 
-        if ($branchId) {
-            $codeRule->ignore($branchId);
+        if ($warehouseId) {
+            $codeRule->ignore($warehouseId);
         }
 
         return [
-            "{$form}.code" => ['required', 'string', 'max:10', $codeRule],
-            "{$form}.name" => ['required', 'string', 'max:100'],
-            "{$form}.branch_type_id" => ['required', Rule::exists('branch_types', 'id')],
-            "{$form}.address" => ['nullable', 'string', 'max:150'],
-            "{$form}.phone" => ['nullable', 'string', 'max:25'],
-            "{$form}.status" => ['required', Rule::in(['0', '1', 0, 1])],
+            "{$form}.branch_id" => ['required', Rule::exists('branches', 'id')],
+            "{$form}.code" => ['required', 'string', 'max:50', $codeRule],
+            "{$form}.name" => ['required', 'string', 'max:150'],
+            "{$form}.is_active" => ['required', Rule::in(['0', '1', 0, 1])],
         ];
     }
 
     protected function formAttributes(string $form): array
     {
         return [
+            "{$form}.branch_id" => __('Branch'),
             "{$form}.code" => __('Code'),
             "{$form}.name" => __('Name'),
-            "{$form}.branch_type_id" => __('Branch Type'),
-            "{$form}.address" => __('Address'),
-            "{$form}.phone" => __('Phone'),
-            "{$form}.status" => __('Status'),
+            "{$form}.is_active" => __('Status'),
         ];
     }
 
@@ -175,12 +167,10 @@ class BranchesIndex extends Component
     protected function defaultForm(): array
     {
         return [
+            'branch_id' => '',
             'code' => '',
             'name' => '',
-            'branch_type_id' => '',
-            'address' => '',
-            'phone' => '',
-            'status' => '1',
+            'is_active' => '1',
         ];
     }
 

@@ -4,6 +4,35 @@ set -eu
 
 APP_DIR="/var/www/html"
 IMAGE_APP_DIR="/opt/app"
+APP_UID="${WWWUSER:-1000}"
+APP_GID="${WWWGROUP:-1000}"
+ALLOW_WORLD_WRITABLE_STORAGE="${ALLOW_WORLD_WRITABLE_STORAGE:-false}"
+FIX_APP_SOURCE_PERMISSIONS="${FIX_APP_SOURCE_PERMISSIONS:-false}"
+
+validate_app_id() {
+    value="$1"
+    name="$2"
+
+    case "$value" in
+        ''|*[!0-9]*)
+            echo "${name} must be numeric, got '${value}'." >&2
+            exit 1
+            ;;
+    esac
+}
+
+configure_app_user() {
+    validate_app_id "$APP_UID" "WWWUSER"
+    validate_app_id "$APP_GID" "WWWGROUP"
+
+    if [ "$(id -g www-data)" != "$APP_GID" ]; then
+        groupmod -o -g "$APP_GID" www-data
+    fi
+
+    if [ "$(id -u www-data)" != "$APP_UID" ]; then
+        usermod -o -u "$APP_UID" www-data
+    fi
+}
 
 copy_tree_if_missing() {
     source_dir="$1"
@@ -30,8 +59,30 @@ ensure_runtime_directories() {
 
     touch "${APP_DIR}/storage/logs/laravel.log"
 
-    chown -R www-data:www-data "${APP_DIR}/storage" "${APP_DIR}/bootstrap/cache"
-    chmod -R ug+rwx "${APP_DIR}/storage" "${APP_DIR}/bootstrap/cache"
+    chown -R "${APP_UID}:${APP_GID}" \
+        "${APP_DIR}/storage" \
+        "${APP_DIR}/bootstrap/cache" \
+        /run/php \
+        /var/lib/nginx \
+        /var/log/nginx
+
+    if [ "$ALLOW_WORLD_WRITABLE_STORAGE" = "true" ]; then
+        chmod -R a+rwX "${APP_DIR}/storage" "${APP_DIR}/bootstrap/cache"
+    else
+        chmod -R ug+rwx "${APP_DIR}/storage" "${APP_DIR}/bootstrap/cache"
+    fi
+}
+
+ensure_source_permissions() {
+    if [ "$FIX_APP_SOURCE_PERMISSIONS" != "true" ]; then
+        return 0
+    fi
+
+    for path in app config database public resources routes tests artisan composer.json composer.lock package.json package-lock.json phpunit.xml vite.config.js; do
+        if [ -e "${APP_DIR}/${path}" ]; then
+            chown -R "${APP_UID}:${APP_GID}" "${APP_DIR}/${path}"
+        fi
+    done
 }
 
 clear_bootstrap_cache() {
@@ -72,9 +123,18 @@ ensure_storage_link() {
 
 cd "$APP_DIR"
 
+configure_app_user
+
+if [ "$ALLOW_WORLD_WRITABLE_STORAGE" = "true" ]; then
+    umask 0000
+else
+    umask 0002
+fi
+
 copy_tree_if_missing "${IMAGE_APP_DIR}/vendor" "${APP_DIR}/vendor" "autoload.php"
 copy_tree_if_missing "${IMAGE_APP_DIR}/public/build" "${APP_DIR}/public/build" "manifest.json"
 
+ensure_source_permissions
 ensure_runtime_directories
 clear_bootstrap_cache
 wait_for_database
@@ -82,5 +142,6 @@ wait_for_database
 php artisan package:discover --ansi
 php artisan migrate --force --ansi
 ensure_storage_link
+ensure_runtime_directories
 
 exec "$@"

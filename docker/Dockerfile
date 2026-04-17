@@ -46,6 +46,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     mariadb-client \
     nginx \
+    passwd \
     supervisor \
     unzip \
     zip \

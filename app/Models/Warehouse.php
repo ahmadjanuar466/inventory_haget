@@ -11,18 +11,33 @@ class Warehouse extends Model
         'branch_id',
         'code',
         'name',
-        'is_default',
-        'is_active'
+        'is_active',
     ];
+
     public $timestamps = true;
+
+    public function branch()
+    {
+        return $this->belongsTo(Branches::class, 'branch_id');
+    }
 
     public function branches()
     {
-        return $this->belongsTo(Branches::class, 'branch_id');
+        return $this->branch();
     }
 
     public function stocks()
     {
         return $this->hasMany(Stocks::class, 'warehouse_id');
+    }
+
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovements::class, 'warehouse_id');
+    }
+
+    public function purchaseReceipts()
+    {
+        return $this->hasMany(PurchaseReceipts::class, 'warehouse_id');
     }
 }
