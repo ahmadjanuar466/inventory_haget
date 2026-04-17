@@ -13,7 +13,7 @@ class Branches extends Model
         'branch_type_id',
         'address',
         'phone',
-        'is_active'
+        'status',
     ];
     public $timestamps = true;
 

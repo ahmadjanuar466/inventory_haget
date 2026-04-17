@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Branch\BranchesIndex;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -24,6 +25,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', Profile::class)->name('profile.edit');
     Route::get('settings/password', Password::class)->name('user-password.edit');
     Route::get('settings/appearance', Appearance::class)->name('appearance.edit');
+
+    Route::get('master/branches', BranchesIndex::class)->name('master.branches');
+
     Route::get('user-management/users', UsersIndex::class)->name('user-management.users');
     Route::get('user-management/roles', RolesIndex::class)->name('user-management.roles');
     Route::get('user-management/permissions', PermissionsIndex::class)->name('user-management.permissions');

@@ -21,6 +21,13 @@
                     wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
             </flux:navlist.group>
 
+            <flux:navlist.group :heading="__('Master')">
+                <flux:navlist.item icon="building-storefront" :href="route('master.branches')"
+                    :current="request()->routeIs('master.branches')" wire:navigate>
+                    {{ __('Branches') }}
+                </flux:navlist.item>
+            </flux:navlist.group>
+
             <flux:navlist.group :heading="__('User Management')">
                 <flux:navlist.item icon="users" :href="route('user-management.users')"
                     :current="request()->routeIs('user-management.users')" wire:navigate>
