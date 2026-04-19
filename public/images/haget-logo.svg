@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1600" role="img" aria-labelledby="title desc">
+    <title id="title">Haget logo</title>
+    <desc id="desc">Dark green circular Haget logo with an off-white drink icon and wordmark.</desc>
+    <circle cx="800" cy="800" r="800" fill="#355856"/>
+    <g fill="#f4f1ec">
+        <circle cx="390" cy="338" r="30"/>
+        <circle cx="488" cy="360" r="30"/>
+    </g>
+    <g fill="#f4f1ec" stroke="#f4f1ec" stroke-linejoin="round">
+        <path d="M166 536C190 499 378 464 509 462L489 530C341 530 203 566 185 612L312 1208C323 1260 361 1284 421 1278L602 1258C653 1253 683 1224 683 1169V616C661 576 567 538 489 530L509 462C591 475 676 514 712 567C724 584 730 602 730 622V1184C730 1285 671 1343 569 1353L414 1369C313 1378 246 1327 225 1226L141 625C135 594 143 563 166 536Z"/>
+        <path d="M242 726C289 678 470 656 612 676L610 1197C610 1245 581 1271 533 1276L389 1290C339 1295 309 1272 299 1222L230 774C226 754 230 738 242 726Z"/>
+        <path d="M528 664L592 267L735 294L725 334L623 316L572 672Z"/>
+    </g>
+    <g fill="#f4f1ec" font-family="Arial Black, Instrument Sans, Arial, sans-serif" font-weight="900">
+        <text x="694" y="796" font-size="430">ha</text>
+        <text x="704" y="1200" font-size="430">get</text>
+    </g>
+</svg>

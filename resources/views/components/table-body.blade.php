@@ -7,7 +7,7 @@
     'rowData' => [],
     'emptyMessage' => '',
 ])
-<tbody {{ $attributes->class('divide-y divide-[#0f2234]/60 text-[#e6f1ff]') }}>
+<tbody {{ $attributes->class('divide-y divide-[#142a28]/60 text-[#f4f1ec]') }}>
     @forelse ($items as $item)
         @php
             $rowContext = $rowData;
@@ -17,7 +17,7 @@
         @include($rowView, $rowContext)
     @empty
         <tr>
-            <td colspan="{{ $columns }}" class="px-4 py-6 text-center text-[#8fb3d9]">
+            <td colspan="{{ $columns }}" class="px-4 py-6 text-center text-[#a9c2bd]">
                 {{ $emptyMessage }}
             </td>
         </tr>

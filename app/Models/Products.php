@@ -24,11 +24,11 @@ class Products extends Model
 
     public function units()
     {
-        return $this->hasMany(Units::class, 'id');
+        return $this->belongsTo(Units::class, 'units_id');
     }
     public function categories()
     {
-        return $this->hasMany(Categories::class, 'category_id');
+        return $this->belongsTo(Categories::class, 'category_id');
     }
 
     public function stocks()

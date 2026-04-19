@@ -1,5 +1,5 @@
 <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
-<thead class="bg-[#0f2234]/80 text-xs uppercase tracking-wide text-[#8fb3d9]">
+<thead class="bg-[#142a28]/80 text-xs uppercase tracking-wide text-[#a9c2bd]">
 
     <tr>
         @foreach ($head as $datas)

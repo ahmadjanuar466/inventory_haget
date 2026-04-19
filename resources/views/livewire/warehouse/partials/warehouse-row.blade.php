@@ -1,4 +1,4 @@
-<tr class="transition hover:bg-[#0f2234]/60">
+<tr class="transition hover:bg-[#142a28]/60">
     <td class="px-4 py-3">
         <div class="font-semibold">{{ $warehouse->code }}</div>
     </td>
@@ -6,7 +6,7 @@
         <div class="font-semibold">{{ $warehouse->name }}</div>
     </td>
     <td class="px-4 py-3">
-        <span class="text-[#8fb3d9]">{{ $warehouse->branch->name ?? __('Not assigned') }}</span>
+        <span class="text-[#a9c2bd]">{{ $warehouse->branch->name ?? __('Not assigned') }}</span>
     </td>
     <td class="px-4 py-3">
         @if ((int) $warehouse->is_active === 1)

@@ -31,7 +31,7 @@
             </div>
         </form>
 
-        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-[#8fb3d9]">
+        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-[#a9c2bd]">
             <span>{{ __('Already have an account?') }}</span>
             <flux:link class="text-accent" :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
         </div>

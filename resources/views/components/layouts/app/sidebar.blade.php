@@ -5,32 +5,48 @@
     @include('partials.head')
 </head>
 
-<body class="min-h-screen antialiased bg-[#193549] text-[#e6f1ff]">
+<body class="min-h-screen antialiased bg-[#1c3432] text-[#f4f1ec]">
     <flux:sidebar sticky stashable
-        class="border-e border-[#0f2234]/80 bg-[#102a43]/95 text-[#e6f1ff] shadow-lg shadow-[#0b1424]/40 backdrop-blur">
+        class="border-e border-[#142a28]/80 bg-[#243f3c]/95 text-[#f4f1ec] shadow-lg shadow-[#0d1a18]/40 backdrop-blur">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-        <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 text-[#e6f1ff] rtl:space-x-reverse"
+        <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 text-[#f4f1ec] rtl:space-x-reverse"
             wire:navigate>
             <x-app-logo />
         </a>
 
-        <flux:navlist variant="outline" class="text-[#e6f1ff]">
+        <flux:navlist variant="outline" class="text-[#f4f1ec]">
             <flux:navlist.group :heading="__('Platform')">
                 <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
                     wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
             </flux:navlist.group>
 
             <flux:navlist.group :heading="__('Master')">
-                <flux:navlist.item icon="building-storefront" :href="route('master.branches')"
-                    :current="request()->routeIs('master.branches')" wire:navigate>
-                    {{ __('Branches') }}
-                </flux:navlist.item>
+                <flux:navlist.group :heading="__('Branches')" expandable
+                    :expanded="request()->routeIs('master.branches') || request()->routeIs('master.warehouses')">
+                    <flux:navlist.item icon="building-storefront" :href="route('master.branches')"
+                        :current="request()->routeIs('master.branches')" wire:navigate>
+                        {{ __('List Branches') }}
+                    </flux:navlist.item>
 
-                <flux:navlist.item icon="archive-box" :href="route('master.warehouses')"
-                    :current="request()->routeIs('master.warehouses')" wire:navigate>
-                    {{ __('Warehouses') }}
-                </flux:navlist.item>
+                    <flux:navlist.item icon="archive-box" :href="route('master.warehouses')"
+                        :current="request()->routeIs('master.warehouses')" wire:navigate>
+                        {{ __('Warehouses') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+
+                <flux:navlist.group :heading="__('Product')" expandable
+                    :expanded="request()->routeIs('master.product-categories') || request()->routeIs('master.product-units')">
+                    <flux:navlist.item icon="tag" :href="route('master.product-categories')"
+                        :current="request()->routeIs('master.product-categories')" wire:navigate>
+                        {{ __('List Category Product') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item icon="scale" :href="route('master.product-units')"
+                        :current="request()->routeIs('master.product-units')" wire:navigate>
+                        {{ __('Units') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
             </flux:navlist.group>
 
             <flux:navlist.group :heading="__('User Management')">
@@ -77,7 +93,7 @@
                                         class="h-8 w-8 rounded-lg object-cover" />
                                 @else
                                     <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-[#0f2234] text-[#ffc600]">
+                                        class="flex h-full w-full items-center justify-center rounded-lg bg-[#142a28] text-[#d6c172]">
                                         {{ $authenticatedUser->initials() }}
                                     </span>
                                 @endif
@@ -89,21 +105,21 @@
                             </div>
                         </div>
 
-                        <div class="mt-3 space-y-1 rounded-lg border border-[#0f2234]/60 bg-[#0b1624]/50 p-3 text-xs text-[#8fb3d9]">
+                        <div class="mt-3 space-y-1 rounded-lg border border-[#142a28]/60 bg-[#10211f]/50 p-3 text-xs text-[#a9c2bd]">
                             <div>
-                                <span class="font-semibold text-[#e6f1ff]">{{ __('Full Name:') }}</span>
+                                <span class="font-semibold text-[#f4f1ec]">{{ __('Full Name:') }}</span>
                                 {{ $userProfile->nama_lengkap ?? $authenticatedUser->name }}
                             </div>
                             <div>
-                                <span class="font-semibold text-[#e6f1ff]">{{ __('Phone:') }}</span>
+                                <span class="font-semibold text-[#f4f1ec]">{{ __('Phone:') }}</span>
                                 {{ $userProfile->no_telp ?? __('Not provided') }}
                             </div>
                             <div>
-                                <span class="font-semibold text-[#e6f1ff]">{{ __('Birth Date:') }}</span>
+                                <span class="font-semibold text-[#f4f1ec]">{{ __('Birth Date:') }}</span>
                                 {{ $formattedBirthDate ?? __('Not provided') }}
                             </div>
                             <div>
-                                <span class="font-semibold text-[#e6f1ff]">{{ __('Address:') }}</span>
+                                <span class="font-semibold text-[#f4f1ec]">{{ __('Address:') }}</span>
                                 {{ $userProfile->alamat ?? __('Not provided') }}
                             </div>
                         </div>
@@ -132,7 +148,7 @@
 
     <!-- Mobile User Menu -->
     <flux:header
-        class="lg:hidden border-b border-[#0f2234]/80 bg-[#102a43]/95 text-[#e6f1ff] shadow-lg shadow-[#0b1424]/30 backdrop-blur">
+        class="lg:hidden border-b border-[#142a28]/80 bg-[#243f3c]/95 text-[#f4f1ec] shadow-lg shadow-[#0d1a18]/30 backdrop-blur">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
         <flux:spacer />
@@ -151,7 +167,7 @@
                                         class="h-8 w-8 rounded-lg object-cover" />
                                 @else
                                     <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-[#0f2234] text-[#ffc600]">
+                                        class="flex h-full w-full items-center justify-center rounded-lg bg-[#142a28] text-[#d6c172]">
                                         {{ $authenticatedUser->initials() }}
                                     </span>
                                 @endif
@@ -163,21 +179,21 @@
                             </div>
                         </div>
 
-                        <div class="mt-3 space-y-1 rounded-lg border border-[#0f2234]/60 bg-[#0b1624]/50 p-3 text-xs text-[#8fb3d9]">
+                        <div class="mt-3 space-y-1 rounded-lg border border-[#142a28]/60 bg-[#10211f]/50 p-3 text-xs text-[#a9c2bd]">
                             <div>
-                                <span class="font-semibold text-[#e6f1ff]">{{ __('Full Name:') }}</span>
+                                <span class="font-semibold text-[#f4f1ec]">{{ __('Full Name:') }}</span>
                                 {{ $userProfile->nama_lengkap ?? $authenticatedUser->name }}
                             </div>
                             <div>
-                                <span class="font-semibold text-[#e6f1ff]">{{ __('Phone:') }}</span>
+                                <span class="font-semibold text-[#f4f1ec]">{{ __('Phone:') }}</span>
                                 {{ $userProfile->no_telp ?? __('Not provided') }}
                             </div>
                             <div>
-                                <span class="font-semibold text-[#e6f1ff]">{{ __('Birth Date:') }}</span>
+                                <span class="font-semibold text-[#f4f1ec]">{{ __('Birth Date:') }}</span>
                                 {{ $formattedBirthDate ?? __('Not provided') }}
                             </div>
                             <div>
-                                <span class="font-semibold text-[#e6f1ff]">{{ __('Address:') }}</span>
+                                <span class="font-semibold text-[#f4f1ec]">{{ __('Address:') }}</span>
                                 {{ $userProfile->alamat ?? __('Not provided') }}
                             </div>
                         </div>

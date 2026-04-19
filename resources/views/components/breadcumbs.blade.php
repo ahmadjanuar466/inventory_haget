@@ -1,4 +1,4 @@
- <nav aria-label="{{ __('Breadcrumb') }}" class="text-sm text-[#8fb3d9]">
+ <nav aria-label="{{ __('Breadcrumb') }}" class="text-sm text-[#a9c2bd]">
      <flux:breadcrumbs>
          @foreach ($datas as $crumb)
              @php

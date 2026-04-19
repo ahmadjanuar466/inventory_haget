@@ -54,13 +54,13 @@
             @endphp
 
             <div
-                class="flex flex-col gap-4 rounded-xl border border-[#0f2234]/70 bg-[#0b1624]/40 px-4 py-3 text-sm text-[#8fb3d9] sm:flex-row sm:items-center">
+                class="flex flex-col gap-4 rounded-xl border border-[#142a28]/70 bg-[#10211f]/40 px-4 py-3 text-sm text-[#a9c2bd] sm:flex-row sm:items-center">
                 <div class="flex flex-1 items-center gap-3">
                     <div
                         class="flex h-12 w-12 items-center justify-center rounded-full border text-base font-semibold transition
                         @if ($profileDone) border-green-400 bg-green-500/10 text-green-300
-                        @elseif ($profileActive) border-[#ffc600] bg-[#ffc600]/10 text-[#ffc600]
-                        @else border-[#1b2d42] text-[#8fb3d9] @endif">
+                        @elseif ($profileActive) border-[#d6c172] bg-[#d6c172]/10 text-[#d6c172]
+                        @else border-[#25433f] text-[#a9c2bd] @endif">
                         @if ($profileDone)
                             <flux:icon.check class="h-5 w-5" />
                         @else
@@ -68,24 +68,24 @@
                         @endif
                     </div>
                     <div>
-                        <p class="font-semibold text-[#e6f1ff]">{{ __('Profile Data') }}</p>
+                        <p class="font-semibold text-[#f4f1ec]">{{ __('Profile Data') }}</p>
                         <p class="text-xs">
                             {{ __('Capture the user profile first.') }}
                         </p>
                     </div>
                 </div>
                 <div class="hidden flex-1 items-center sm:flex">
-                    <div class="h-px w-full bg-[#1b2d42]/80"></div>
+                    <div class="h-px w-full bg-[#25433f]/80"></div>
                 </div>
                 <div class="flex flex-1 items-center gap-3">
                     <div
                         class="flex h-12 w-12 items-center justify-center rounded-full border text-base font-semibold transition
-                        @if ($accountActive) border-[#ffc600] bg-[#ffc600]/10 text-[#ffc600]
-                        @else border-[#1b2d42] text-[#8fb3d9] @endif">
+                        @if ($accountActive) border-[#d6c172] bg-[#d6c172]/10 text-[#d6c172]
+                        @else border-[#25433f] text-[#a9c2bd] @endif">
                         <span>2</span>
                     </div>
                     <div>
-                        <p class="font-semibold text-[#e6f1ff]">{{ __('Account Access') }}</p>
+                        <p class="font-semibold text-[#f4f1ec]">{{ __('Account Access') }}</p>
                         <p class="text-xs">
                             {{ __('Create the login credential after the profile is saved.') }}
                         </p>
@@ -110,11 +110,11 @@
                     </div>
 
                     <div>
-                        <label class="mb-2 block text-sm font-medium text-[#e6f1ff]">
+                        <label class="mb-2 block text-sm font-medium text-[#f4f1ec]">
                             {{ __('Address') }}
                         </label>
                         <textarea wire:model.defer="profileForm.alamat" rows="3"
-                            class="w-full rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] focus:border-[#ffc600] focus:outline-none focus:ring-0"
+                            class="w-full rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] focus:border-[#d6c172] focus:outline-none focus:ring-0"
                             placeholder="{{ __('Street, city, province') }}"></textarea>
                         @error('profileForm.alamat')
                             <p class="mt-1 text-xs text-red-300">{{ $message }}</p>
@@ -122,23 +122,23 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-[#e6f1ff]">
+                        <label class="block text-sm font-medium text-[#f4f1ec]">
                             {{ __('Avatar Photo') }}
                         </label>
                         <input type="file" wire:model="profileAvatarUpload" accept="image/*"
-                            class="w-full cursor-pointer rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-[#193549] file:px-3 file:py-2 file:text-sm file:text-[#e6f1ff] file:font-medium hover:border-[#ffc600] focus:border-[#ffc600] focus:outline-none focus:ring-0">
-                        <p class="text-xs text-[#8fb3d9]">
+                            class="w-full cursor-pointer rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-[#1c3432] file:px-3 file:py-2 file:text-sm file:text-[#f4f1ec] file:font-medium hover:border-[#d6c172] focus:border-[#d6c172] focus:outline-none focus:ring-0">
+                        <p class="text-xs text-[#a9c2bd]">
                             {{ __('PNG or JPG up to 2MB.') }}
                         </p>
                         @error('profileAvatarUpload')
                             <p class="text-xs text-red-300">{{ $message }}</p>
                         @enderror
-                        <div wire:loading wire:target="profileAvatarUpload" class="text-xs font-medium text-[#ffc600]">
+                        <div wire:loading wire:target="profileAvatarUpload" class="text-xs font-medium text-[#d6c172]">
                             {{ __('Uploading avatar...') }}
                         </div>
                         @if ($profileAvatarUpload || $profileForm['avatars'])
                             <div class="mt-2 flex items-center gap-3">
-                                <div class="text-xs text-[#8fb3d9]">{{ __('Preview') }}</div>
+                                <div class="text-xs text-[#a9c2bd]">{{ __('Preview') }}</div>
                                 <img src="{{ $profileAvatarUpload?->temporaryUrl() ?? asset('storage/' . ltrim($profileForm['avatars'], '/')) }}"
                                     alt="{{ __('Avatar preview') }}" class="h-14 w-14 rounded-full object-cover">
                             </div>
@@ -165,18 +165,18 @@
             @else
                 <div class="space-y-4" wire:key="account-step-form">
                     <div
-                        class="flex flex-col gap-3 rounded-lg border border-[#0f2234]/60 bg-[#0b1624]/60 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
+                        class="flex flex-col gap-3 rounded-lg border border-[#142a28]/60 bg-[#10211f]/60 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-[#8fb3d9]">{{ __('Profile Ready') }}</p>
-                            <p class="text-base font-semibold text-[#e6f1ff]">
+                            <p class="text-xs uppercase tracking-wide text-[#a9c2bd]">{{ __('Profile Ready') }}</p>
+                            <p class="text-base font-semibold text-[#f4f1ec]">
                                 {{ $profileForm['nama_lengkap'] !== '' ? $profileForm['nama_lengkap'] : __('Unnamed profile') }}
                             </p>
-                            <p class="text-xs text-[#8fb3d9]">
+                            <p class="text-xs text-[#a9c2bd]">
                                 {{ $profileForm['email'] !== '' ? $profileForm['email'] : __('No email recorded') }}
                             </p>
                         </div>
                         <flux:button type="button" size="sm" variant="ghost"
-                            class="text-[#ffc600] hover:text-[#ffd23f]" wire:click="backToProfileStep">
+                            class="text-[#d6c172] hover:text-[#eadb8a]" wire:click="backToProfileStep">
                             {{ __('Edit Profile') }}
                         </flux:button>
                     </div>
@@ -196,23 +196,23 @@
                     </div>
 
                     <div>
-                        <label class="mb-2 block text-sm font-medium text-[#e6f1ff]">
+                        <label class="mb-2 block text-sm font-medium text-[#f4f1ec]">
                             {{ __('Roles') }}
                         </label>
 
                         <select wire:model.defer="createForm.roles" multiple size="5"
-                            class="w-full rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] focus:border-[#ffc600] focus:outline-none focus:ring-0">
+                            class="w-full rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] focus:border-[#d6c172] focus:outline-none focus:ring-0">
                             @foreach ($availableRoles as $role)
                                 <option value="{{ $role->name }}">{{ $role->name }}</option>
                             @endforeach
                         </select>
 
                         @if ($availableRoles->isEmpty())
-                            <p class="mt-2 text-xs text-[#8fb3d9]">
+                            <p class="mt-2 text-xs text-[#a9c2bd]">
                                 {{ __('No roles available yet. Create one first in the Roles section.') }}
                             </p>
                         @else
-                            <p class="mt-2 text-xs text-[#8fb3d9]">
+                            <p class="mt-2 text-xs text-[#a9c2bd]">
                                 {{ __('Hold Ctrl (Windows) or Command (Mac) to select multiple roles.') }}
                             </p>
                         @endif
@@ -225,7 +225,7 @@
                         @enderror
                     </div>
 
-                    <flux:text variant="subtle" class="text-xs text-[#8fb3d9]">
+                    <flux:text variant="subtle" class="text-xs text-[#a9c2bd]">
                         {{ __('Permissions are inherited from the roles you assign here.') }}
                     </flux:text>
 
@@ -261,10 +261,10 @@
         :createFeedback="$editFeedback" close-action="cancelEditing" loading-message="{{ __('Saving profile...') }}">
         <form wire:submit.prevent="updateUser" class="space-y-4">
             <div
-                class="rounded-lg border border-[#ffc600]/40 bg-[#ffc600]/5 px-4 py-3 text-xs text-[#f7e79c] shadow-inner shadow-[#0b1424]/40">
+                class="rounded-lg border border-[#d6c172]/40 bg-[#d6c172]/5 px-4 py-3 text-xs text-[#efe2a2] shadow-inner shadow-[#0d1a18]/40">
                 {{ __('Login credentials cannot be edited here. Use the Reset Password action to change passwords.') }}
             </div>
-            <flux:text variant="subtle" class="text-xs uppercase tracking-wide text-[#8fb3d9]">
+            <flux:text variant="subtle" class="text-xs uppercase tracking-wide text-[#a9c2bd]">
                 {{ __('User ID: :id', ['id' => $editingUserId]) }}
             </flux:text>
 
@@ -283,11 +283,11 @@
             </div>
 
             <div>
-                <label class="mb-2 block text-sm font-medium text-[#e6f1ff]">
+                <label class="mb-2 block text-sm font-medium text-[#f4f1ec]">
                     {{ __('Address') }}
                 </label>
                 <textarea wire:model.defer="editProfileForm.alamat" rows="3"
-                    class="w-full rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] focus:border-[#ffc600] focus:outline-none focus:ring-0"
+                    class="w-full rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] focus:border-[#d6c172] focus:outline-none focus:ring-0"
                     placeholder="{{ __('Street, city, province') }}"></textarea>
                 @error('editProfileForm.alamat')
                     <p class="mt-1 text-xs text-red-300">{{ $message }}</p>
@@ -295,23 +295,23 @@
             </div>
 
             <div class="space-y-2">
-                <label class="block text-sm font-medium text-[#e6f1ff]">
+                <label class="block text-sm font-medium text-[#f4f1ec]">
                     {{ __('Avatar Photo') }}
                 </label>
                 <input type="file" wire:model="editAvatarUpload" accept="image/*"
-                    class="w-full cursor-pointer rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-[#193549] file:px-3 file:py-2 file:text-sm file:text-[#e6f1ff] file:font-medium hover:border-[#ffc600] focus:border-[#ffc600] focus:outline-none focus:ring-0">
-                <p class="text-xs text-[#8fb3d9]">
+                    class="w-full cursor-pointer rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-[#1c3432] file:px-3 file:py-2 file:text-sm file:text-[#f4f1ec] file:font-medium hover:border-[#d6c172] focus:border-[#d6c172] focus:outline-none focus:ring-0">
+                <p class="text-xs text-[#a9c2bd]">
                     {{ __('PNG or JPG up to 2MB.') }}
                 </p>
                 @error('editAvatarUpload')
                     <p class="text-xs text-red-300">{{ $message }}</p>
                 @enderror
-                <div wire:loading wire:target="editAvatarUpload" class="text-xs font-medium text-[#ffc600]">
+                <div wire:loading wire:target="editAvatarUpload" class="text-xs font-medium text-[#d6c172]">
                     {{ __('Uploading avatar...') }}
                 </div>
                 @if ($editAvatarUpload || $editProfileForm['avatars'])
                     <div class="mt-2 flex items-center gap-3">
-                        <div class="text-xs text-[#8fb3d9]">{{ __('Preview') }}</div>
+                        <div class="text-xs text-[#a9c2bd]">{{ __('Preview') }}</div>
                         <img src="{{ $editAvatarUpload?->temporaryUrl() ?? asset('storage/' . ltrim($editProfileForm['avatars'], '/')) }}"
                             alt="{{ __('Avatar preview') }}" class="h-14 w-14 rounded-full object-cover">
                     </div>
@@ -340,29 +340,29 @@
         subtitle="Adjust the roles and direct permissions assigned to this user." wire:model="showAccessModal"
         wire-target="updateUserAccess" :createFeedback="$accessFeedback" close-action="cancelAccessEditing"
         loading-message="{{ __('Updating access...') }}">
-        <flux:text variant="subtle" class="text-xs uppercase tracking-wide text-[#8fb3d9]">
+        <flux:text variant="subtle" class="text-xs uppercase tracking-wide text-[#a9c2bd]">
             {{ __('User ID: :id', ['id' => $accessUserId]) }}
         </flux:text>
 
         <form wire:submit.prevent="updateUserAccess" class="space-y-5">
             <div>
-                <label class="mb-2 block text-sm font-medium text-[#e6f1ff]">
+                <label class="mb-2 block text-sm font-medium text-[#f4f1ec]">
                     {{ __('Roles') }}
                 </label>
 
                 <select wire:model.defer="accessForm.roles" multiple size="6"
-                    class="w-full rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] focus:border-[#ffc600] focus:outline-none focus:ring-0">
+                    class="w-full rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] focus:border-[#d6c172] focus:outline-none focus:ring-0">
                     @foreach ($availableRoles as $role)
                         <option value="{{ $role->name }}">{{ $role->name }}</option>
                     @endforeach
                 </select>
 
                 @if ($availableRoles->isEmpty())
-                    <p class="mt-2 text-xs text-[#8fb3d9]">
+                    <p class="mt-2 text-xs text-[#a9c2bd]">
                         {{ __('No roles available yet. Create one first in the Roles section.') }}
                     </p>
                 @else
-                    <p class="mt-2 text-xs text-[#8fb3d9]">
+                    <p class="mt-2 text-xs text-[#a9c2bd]">
                         {{ __('Hold Ctrl (Windows) or Command (Mac) to select multiple roles.') }}
                     </p>
                 @endif
@@ -376,23 +376,23 @@
             </div>
 
             <div>
-                <label class="mb-2 block text-sm font-medium text-[#e6f1ff]">
+                <label class="mb-2 block text-sm font-medium text-[#f4f1ec]">
                     {{ __('Direct Permissions') }}
                 </label>
 
                 <select wire:model.defer="accessForm.permissions" multiple size="6"
-                    class="w-full rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] focus:border-[#ffc600] focus:outline-none focus:ring-0">
+                    class="w-full rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] focus:border-[#d6c172] focus:outline-none focus:ring-0">
                     @foreach ($availablePermissions as $permission)
                         <option value="{{ $permission->name }}">{{ $permission->name }}</option>
                     @endforeach
                 </select>
 
                 @if ($availablePermissions->isEmpty())
-                    <p class="mt-2 text-xs text-[#8fb3d9]">
+                    <p class="mt-2 text-xs text-[#a9c2bd]">
                         {{ __('No permissions defined yet. Add permissions from the Permissions page.') }}
                     </p>
                 @else
-                    <p class="mt-2 text-xs text-[#8fb3d9]">
+                    <p class="mt-2 text-xs text-[#a9c2bd]">
                         {{ __('Grant specific capabilities even if the assigned roles do not include them.') }}
                     </p>
                 @endif
@@ -405,7 +405,7 @@
                 @enderror
             </div>
 
-            <flux:text variant="subtle" class="text-xs text-[#8fb3d9]">
+            <flux:text variant="subtle" class="text-xs text-[#a9c2bd]">
                 {{ __('Permissions granted through roles continue to apply automatically.') }}
             </flux:text>
 
@@ -431,7 +431,7 @@
     <x-modal name="reset-password-modal" class="max-w-lg" title="Reset Password"
         subtitle="Set a new password for this user." wire:model="showResetModal" wire-target="resetUserPassword"
         :createFeedback="$resetFeedback" close-action="cancelPasswordReset" loading-message="{{ __('Resetting password...') }}">
-        <flux:text variant="subtle" class="text-xs uppercase tracking-wide text-[#8fb3d9]">
+        <flux:text variant="subtle" class="text-xs uppercase tracking-wide text-[#a9c2bd]">
             {{ __('User ID: :id', ['id' => $resetUserId]) }}
         </flux:text>
 
@@ -465,8 +465,8 @@
         @close="$wire.cancelDelete()">
         <div class="relative space-y-6">
             <div wire:loading wire:target="deleteUser"
-                class="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-[#0b1424]/70">
-                <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#ffc600]">
+                class="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-[#0d1a18]/70">
+                <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#d6c172]">
                     <flux:icon.loading class="h-5 w-5" />
                     {{ __('Deleting user...') }}
                 </span>

@@ -1,10 +1,12 @@
 <?php
 
 use App\Livewire\Branch\BranchesIndex;
+use App\Livewire\Category\CategoriesIndex;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
+use App\Livewire\Unit\UnitsIndex;
 use App\Livewire\Usermanagement\PermissionsIndex;
 use App\Livewire\Usermanagement\RolesIndex;
 use App\Livewire\Usermanagement\UsersIndex;
@@ -29,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('master/branches', BranchesIndex::class)->name('master.branches');
     Route::get('master/warehouses', WarehousesIndex::class)->name('master.warehouses');
+    Route::get('master/product-categories', CategoriesIndex::class)->name('master.product-categories');
+    Route::get('master/product-units', UnitsIndex::class)->name('master.product-units');
 
     Route::get('user-management/users', UsersIndex::class)->name('user-management.users');
     Route::get('user-management/roles', RolesIndex::class)->name('user-management.roles');

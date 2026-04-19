@@ -23,7 +23,7 @@
             </flux:button>
         </form>
 
-        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-[#8fb3d9]">
+        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-[#a9c2bd]">
             <span>{{ __('Or, return to') }}</span>
             <flux:link :href="route('login')" wire:navigate>{{ __('log in') }}</flux:link>
         </div>

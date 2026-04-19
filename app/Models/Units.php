@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Units extends Model
 {
-    //
     protected $fillable = ['code', 'name'];
+
     public $timestamps = true;
 
     public function products()
     {
-        return $this->belongsTo(Products::class);
+        return $this->hasMany(Products::class, 'units_id');
     }
 }

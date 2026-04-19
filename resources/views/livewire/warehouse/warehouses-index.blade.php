@@ -143,8 +143,8 @@
         @close="$wire.cancelDelete()">
         <div class="relative space-y-6">
             <div wire:loading wire:target="deleteWarehouse"
-                class="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-[#0b1424]/70">
-                <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#ffc600]">
+                class="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-[#0d1a18]/70">
+                <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#d6c172]">
                     <flux:icon.loading class="h-5 w-5" />
                     {{ __('Deleting warehouse...') }}
                 </span>
@@ -163,7 +163,7 @@
                 </flux:button>
             </div>
 
-            <p class="text-sm text-[#8fb3d9]">
+            <p class="text-sm text-[#a9c2bd]">
                 {{ __('Are you sure you want to delete the warehouse ":name"?', ['name' => $deleteContextName]) }}
             </p>
 

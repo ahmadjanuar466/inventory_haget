@@ -26,7 +26,7 @@ RUN npm ci
 COPY . .
 COPY --from=composer_deps /app/vendor /app/vendor
 
-RUN npm run build
+RUN rm -f public/hot && npm run build
 
 
 FROM php:8.3-fpm-bookworm AS runtime

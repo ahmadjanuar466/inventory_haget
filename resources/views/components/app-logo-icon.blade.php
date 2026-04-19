@@ -1,5 +1,5 @@
 <img
-    src="{{ asset('images/nagabendu-logo.png') }}"
-    alt="{{ __('Nagabendu logo') }}"
+    src="{{ asset('images/haget-logo.svg') }}"
+    alt="{{ __('Haget logo') }}"
     {{ $attributes->class('h-full w-full object-contain') }}
 />

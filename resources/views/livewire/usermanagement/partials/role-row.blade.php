@@ -1,17 +1,17 @@
-<tr class="transition hover:bg-[#0f2234]/60">
+<tr class="transition hover:bg-[#142a28]/60">
     <td class="px-4 py-3">
         <div class="font-semibold">{{ $role->name }}</div>
     </td>
     <td class="px-4 py-3">
-        <span class="text-[#8fb3d9]">{{ $role->guard_name }}</span>
+        <span class="text-[#a9c2bd]">{{ $role->guard_name }}</span>
     </td>
     <td class="px-4 py-3">
         @if ($role->permissions->isEmpty())
-            <span class="text-[#8fb3d9]">{{ __('No permissions assigned') }}</span>
+            <span class="text-[#a9c2bd]">{{ __('No permissions assigned') }}</span>
         @else
             <div class="flex flex-wrap gap-2">
                 @foreach ($role->permissions as $permission)
-                    <span class="rounded-full border border-[#0f2234] bg-[#193549] px-2 py-1 text-xs text-[#ffc600]">
+                    <span class="rounded-full border border-[#142a28] bg-[#1c3432] px-2 py-1 text-xs text-[#d6c172]">
                         {{ $permission->name }}
                     </span>
                 @endforeach

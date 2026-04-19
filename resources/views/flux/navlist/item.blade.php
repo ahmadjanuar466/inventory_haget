@@ -19,8 +19,8 @@ $square ??= $slot->isEmpty();
 
 $iconClasses = Flux::classes($square ? 'size-5!' : 'size-4!');
 
-$activeText = 'text-[#ffc600]';
-$inactiveText = 'text-[#e6f1ff]';
+$activeText = 'text-[#d6c172]';
+$inactiveText = 'text-[#f4f1ec]';
 
 $classes = Flux::classes()
     ->add('h-10 lg:h-8 relative flex items-center gap-3 rounded-lg transition-colors duration-150')
@@ -31,26 +31,26 @@ $classes = Flux::classes()
         'outline' => match ($accent) {
             true => [
                 "data-current:{$activeText} hover:{$activeText}",
-                'data-current:bg-[#102a43]/80 data-current:border data-current:border-[#0f2234]/60',
-                'hover:text-[#ffc600] hover:bg-[#102a43]/60',
+                'data-current:bg-[#243f3c]/80 data-current:border data-current:border-[#142a28]/60',
+                'hover:text-[#d6c172] hover:bg-[#243f3c]/60',
                 'border border-transparent',
             ],
             false => [
                 "data-current:{$activeText}",
-                'data-current:bg-[#102a43]/80 data-current:border data-current:border-[#0f2234]/60 data-current:shadow-xs',
-                'hover:text-[#ffc600] hover:bg-[#102a43]/40',
+                'data-current:bg-[#243f3c]/80 data-current:border data-current:border-[#142a28]/60 data-current:shadow-xs',
+                'hover:text-[#d6c172] hover:bg-[#243f3c]/40',
             ],
         },
         default => match ($accent) {
             true => [
                 "data-current:{$activeText} hover:{$activeText}",
-                'data-current:bg-[#102a43]/80',
-                'hover:text-[#ffc600] hover:bg-[#102a43]/60',
+                'data-current:bg-[#243f3c]/80',
+                'hover:text-[#d6c172] hover:bg-[#243f3c]/60',
             ],
             false => [
                 "data-current:{$activeText}",
-                'data-current:bg-[#102a43]/80',
-                'hover:text-[#ffc600] hover:bg-[#102a43]/60',
+                'data-current:bg-[#243f3c]/80',
+                'hover:text-[#d6c172] hover:bg-[#243f3c]/60',
             ],
         },
     })
@@ -68,7 +68,7 @@ $classes = Flux::classes()
 
             <?php if ($iconDot): ?>
                 <div class="absolute top-[-2px] end-[-2px]">
-                    <div class="size-[6px] rounded-full bg-[#ffc600]"></div>
+                    <div class="size-[6px] rounded-full bg-[#d6c172]"></div>
                 </div>
             <?php endif; ?>
         </div>

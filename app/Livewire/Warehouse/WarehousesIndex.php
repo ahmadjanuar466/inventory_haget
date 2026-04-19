@@ -24,6 +24,7 @@ class WarehousesIndex extends Component
     public array $breadcumb = [
         ['title' => 'Dashboard', 'routes' => 'dashboard'],
         ['title' => 'Master', 'routes' => ''],
+        ['title' => 'Branches', 'routes' => 'master.branches'],
         ['title' => 'Warehouses', 'routes' => ''],
     ];
 

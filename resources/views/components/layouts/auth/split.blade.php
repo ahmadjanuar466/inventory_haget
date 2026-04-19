@@ -3,12 +3,12 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen antialiased bg-[#193549] text-[#e6f1ff]">
-        <div class="relative grid h-dvh flex-col items-center justify-center bg-gradient-to-br from-[#102a43] via-[#193549] to-[#0b1424] px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
-            <div class="relative hidden h-full flex-col border-e border-[#0f2234] p-10 text-[#e6f1ff] lg:flex">
-                <div class="absolute inset-0 bg-[#102a43]/90"></div>
+    <body class="min-h-screen antialiased bg-[#1c3432] text-[#f4f1ec]">
+        <div class="relative grid h-dvh flex-col items-center justify-center bg-gradient-to-br from-[#243f3c] via-[#1c3432] to-[#0d1a18] px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
+            <div class="relative hidden h-full flex-col border-e border-[#142a28] p-10 text-[#f4f1ec] lg:flex">
+                <div class="absolute inset-0 bg-[#243f3c]/90"></div>
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
-                    <span class="flex h-10 w-10 items-center justify-center rounded-md bg-[#0f2234] shadow-md shadow-[#0b1424]/70">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-md bg-[#142a28] shadow-md shadow-[#0d1a18]/70">
                         <x-app-logo-icon class="me-2 h-7 w-7" />
                     </span>
                     {{ config('app.name', 'Laravel') }}
@@ -19,16 +19,16 @@
                 @endphp
 
                 <div class="relative z-20 mt-auto max-w-xl">
-                    <blockquote class="space-y-2 text-[#e6f1ff]">
+                    <blockquote class="space-y-2 text-[#f4f1ec]">
                         <flux:heading size="lg">&ldquo;{{ trim($message) }}&rdquo;</flux:heading>
                         <footer><flux:heading>{{ trim($author) }}</flux:heading></footer>
                     </blockquote>
                 </div>
             </div>
             <div class="w-full lg:p-8">
-                <div class="mx-auto flex w-full flex-col justify-center space-y-6 text-[#e6f1ff] sm:w-[350px]">
-                    <a href="{{ route('home') }}" class="z-20 flex flex-col items-center gap-2 font-medium text-[#e6f1ff] lg:hidden" wire:navigate>
-                        <span class="flex h-9 w-9 items-center justify-center rounded-md bg-[#0f2234] shadow-md shadow-[#0b1424]/70">
+                <div class="mx-auto flex w-full flex-col justify-center space-y-6 text-[#f4f1ec] sm:w-[350px]">
+                    <a href="{{ route('home') }}" class="z-20 flex flex-col items-center gap-2 font-medium text-[#f4f1ec] lg:hidden" wire:navigate>
+                        <span class="flex h-9 w-9 items-center justify-center rounded-md bg-[#142a28] shadow-md shadow-[#0d1a18]/70">
                             <x-app-logo-icon class="h-9 w-9" />
                         </span>
 

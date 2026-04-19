@@ -1,18 +1,18 @@
-<tr class="transition hover:bg-[#0f2234]/60">
+<tr class="transition hover:bg-[#142a28]/60">
     <td class="px-4 py-3">
         <div class="font-semibold">{{ $branch->code }}</div>
     </td>
     <td class="px-4 py-3">
         <div class="font-semibold">{{ $branch->name }}</div>
         @if ($branch->address)
-            <div class="max-w-xs truncate text-xs text-[#8fb3d9]">{{ $branch->address }}</div>
+            <div class="max-w-xs truncate text-xs text-[#a9c2bd]">{{ $branch->address }}</div>
         @endif
     </td>
     <td class="px-4 py-3">
-        <span class="text-[#8fb3d9]">{{ $branch->branchtype->name ?? __('Not assigned') }}</span>
+        <span class="text-[#a9c2bd]">{{ $branch->branchtype->name ?? __('Not assigned') }}</span>
     </td>
     <td class="px-4 py-3">
-        <span class="text-[#8fb3d9]">{{ $branch->phone ?: __('Not provided') }}</span>
+        <span class="text-[#a9c2bd]">{{ $branch->phone ?: __('Not provided') }}</span>
     </td>
     <td class="px-4 py-3">
         @if ((int) $branch->status === 1)

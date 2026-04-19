@@ -5,18 +5,19 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+@source inline("data-current:text-[#d6c172] hover:text-[#d6c172] data-current:bg-[#243f3c]/80 data-current:border data-current:border-[#142a28]/60 data-current:shadow-xs hover:bg-[#243f3c]/60 hover:bg-[#243f3c]/40");
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    --cobalt-bg: #193549;
-    --cobalt-surface: #102a43;
-    --cobalt-overlay: #1f4662;
-    --cobalt-border: #0f2234;
-    --cobalt-text: #e6f1ff;
-    --cobalt-text-muted: #8fb3d9;
+    --cobalt-bg: #1c3432;
+    --cobalt-surface: #243f3c;
+    --cobalt-overlay: #315856;
+    --cobalt-border: #142a28;
+    --cobalt-text: #f4f1ec;
+    --cobalt-text-muted: #a9c2bd;
 
     --color-white: #f8fbff;
     --color-black: #020817;
@@ -57,16 +58,16 @@
     --color-stone-900: #142034;
     --color-stone-950: #0b1320;
 
-    --color-accent: #ffc600;
-    --color-accent-content: #0f2234;
-    --color-accent-foreground: #0f2234;
+    --color-accent: #d6c172;
+    --color-accent-content: #142a28;
+    --color-accent-foreground: #142a28;
 }
 
 @layer theme {
     .dark {
-        --color-accent: #ffc600;
-        --color-accent-content: #132f47;
-        --color-accent-foreground: #132f47;
+        --color-accent: #d6c172;
+        --color-accent-content: #142a28;
+        --color-accent-foreground: #142a28;
     }
 }
 

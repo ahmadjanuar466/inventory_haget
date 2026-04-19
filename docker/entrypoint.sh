@@ -47,6 +47,14 @@ copy_tree_if_missing() {
     cp -a "${source_dir}/." "$target_dir/"
 }
 
+sync_tree() {
+    source_dir="$1"
+    target_dir="$2"
+
+    mkdir -p "$target_dir"
+    cp -a "${source_dir}/." "$target_dir/"
+}
+
 ensure_runtime_directories() {
     mkdir -p \
         "${APP_DIR}/bootstrap/cache" \
@@ -132,7 +140,7 @@ else
 fi
 
 copy_tree_if_missing "${IMAGE_APP_DIR}/vendor" "${APP_DIR}/vendor" "autoload.php"
-copy_tree_if_missing "${IMAGE_APP_DIR}/public/build" "${APP_DIR}/public/build" "manifest.json"
+sync_tree "${IMAGE_APP_DIR}/public/build" "${APP_DIR}/public/build"
 
 ensure_source_permissions
 ensure_runtime_directories

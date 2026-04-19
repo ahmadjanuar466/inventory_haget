@@ -54,18 +54,18 @@
             <flux:input wire:model.defer="createForm.guard_name" :label="__('Guard Name')" type="text" required />
 
             <div>
-                <label class="mb-2 block text-sm font-medium text-[#e6f1ff]">
+                <label class="mb-2 block text-sm font-medium text-[#f4f1ec]">
                     {{ __('Permissions') }}
                 </label>
 
                 <select wire:model.defer="createForm.permissions" multiple size="6"
-                    class="w-full rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] focus:border-[#ffc600] focus:outline-none focus:ring-0">
+                    class="w-full rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] focus:border-[#d6c172] focus:outline-none focus:ring-0">
                     @foreach ($availablePermissions as $permission)
                         <option value="{{ $permission->name }}">{{ $permission->name }}</option>
                     @endforeach
                 </select>
 
-                <p class="mt-2 text-xs text-[#8fb3d9]">
+                <p class="mt-2 text-xs text-[#a9c2bd]">
                     {{ __('Hold Ctrl (Windows) or Command (Mac) to select multiple permissions.') }}
                 </p>
 
@@ -106,12 +106,12 @@
             <flux:input wire:model.defer="editForm.guard_name" :label="__('Guard Name')" type="text" required />
 
             <div>
-                <label class="mb-2 block text-sm font-medium text-[#e6f1ff]">
+                <label class="mb-2 block text-sm font-medium text-[#f4f1ec]">
                     {{ __('Permissions') }}
                 </label>
 
                 <select wire:model.defer="editForm.permissions" multiple size="6"
-                    class="w-full rounded-lg border border-[#0f2234]/70 bg-[#0b1624]/70 px-3 py-2 text-sm text-[#e6f1ff] focus:border-[#ffc600] focus:outline-none focus:ring-0">
+                    class="w-full rounded-lg border border-[#142a28]/70 bg-[#10211f]/70 px-3 py-2 text-sm text-[#f4f1ec] focus:border-[#d6c172] focus:outline-none focus:ring-0">
                     @foreach ($availablePermissions as $permission)
                         <option value="{{ $permission->name }}">{{ $permission->name }}</option>
                     @endforeach
@@ -148,8 +148,8 @@
         @close="$wire.cancelDelete()">
         <div class="relative space-y-6">
             <div wire:loading wire:target="deleteRole"
-                class="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-[#0b1424]/70">
-                <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#ffc600]">
+                class="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-[#0d1a18]/70">
+                <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#d6c172]">
                     <flux:icon.loading class="h-5 w-5" />
                     {{ __('Deleting role...') }}
                 </span>
@@ -168,7 +168,7 @@
                 </flux:button>
             </div>
 
-            <p class="text-sm text-[#8fb3d9]">
+            <p class="text-sm text-[#a9c2bd]">
                 {{ __('Are you sure you want to delete the role ":name"?', ['name' => $deleteContextName]) }}
             </p>
 

@@ -1,15 +1,11 @@
 <?php
 
-use App\Providers\AppServiceProvider;
-use App\Providers\BranchProvider;
-use App\Providers\FortifyServiceProvider;
-use App\Providers\WarehouseProvider;
-use Spatie\Permission\PermissionServiceProvider;
-
 return [
-    AppServiceProvider::class,
-    BranchProvider::class,
-    FortifyServiceProvider::class,
-    WarehouseProvider::class,
-    PermissionServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+    App\Providers\BranchProvider::class,
+    App\Providers\CategoryProvider::class,
+    App\Providers\FortifyServiceProvider::class,
+    App\Providers\UnitProvider::class,
+    App\Providers\WarehouseProvider::class,
+    Spatie\Permission\PermissionServiceProvider::class,
 ];
