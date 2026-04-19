@@ -36,7 +36,12 @@
                 </flux:navlist.group>
 
                 <flux:navlist.group :heading="__('Product')" expandable
-                    :expanded="request()->routeIs('master.product-categories') || request()->routeIs('master.product-units')">
+                    :expanded="request()->routeIs('master.products') || request()->routeIs('master.product-categories') || request()->routeIs('master.product-units')">
+                    <flux:navlist.item icon="cube" :href="route('master.products')"
+                        :current="request()->routeIs('master.products')" wire:navigate>
+                        {{ __('List Product') }}
+                    </flux:navlist.item>
+
                     <flux:navlist.item icon="tag" :href="route('master.product-categories')"
                         :current="request()->routeIs('master.product-categories')" wire:navigate>
                         {{ __('List Category Product') }}

@@ -16,10 +16,10 @@ class ProductUnits extends Model
     public $timestamps = true;
     public function product()
     {
-        return $this->hasMany(Products::class, 'product_id', 'id');
+        return $this->belongsTo(Products::class, 'product_id');
     }
     public function unit()
     {
-        return $this->hasMany(Units::class, 'unit_id', 'id');
+        return $this->belongsTo(Units::class, 'unit_id');
     }
 }

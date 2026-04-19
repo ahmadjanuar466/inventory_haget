@@ -35,4 +35,16 @@ class Products extends Model
     {
         return $this->hasMany(Stocks::class, 'product_id');
     }
+    public function productsUnits()
+    {
+        return $this->hasMany(ProductUnits::class, 'product_id');
+    }
+    public function productMovements()
+    {
+        return $this->hasMany(StockMovements::class, 'product_id');
+    }
+    public function purchaseReceiptItems()
+    {
+        return $this->hasMany(PurchaseReceiptItems::class, 'product_id');
+    }
 }

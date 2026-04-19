@@ -2,6 +2,7 @@
 
 use App\Livewire\Branch\BranchesIndex;
 use App\Livewire\Category\CategoriesIndex;
+use App\Livewire\Product\ProductIndex;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -31,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('master/branches', BranchesIndex::class)->name('master.branches');
     Route::get('master/warehouses', WarehousesIndex::class)->name('master.warehouses');
+    Route::get('master/products', ProductIndex::class)->name('master.products');
     Route::get('master/product-categories', CategoriesIndex::class)->name('master.product-categories');
     Route::get('master/product-units', UnitsIndex::class)->name('master.product-units');
 
