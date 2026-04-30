@@ -10,8 +10,8 @@ class CustomerType extends Model
     protected $fillable = ['name'];
     public $timestamps = true;
 
-    public function customer()
+    public function customers()
     {
-        return $this->belongsTo(Customers::class);
+        return $this->hasMany(Customers::class, 'customer_type_id');
     }
 }

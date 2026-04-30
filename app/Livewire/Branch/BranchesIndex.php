@@ -14,9 +14,6 @@ use Livewire\WithPagination;
 
 class BranchesIndex extends Component
 {
-    use Delete;
-    use Insert;
-    use Update;
     use WithPagination;
 
     protected BranchServices $branchServices;
@@ -79,36 +76,20 @@ class BranchesIndex extends Component
 
     public ?string $deleteContextName = null;
 
-    protected $paginationTheme = 'tailwind';
-
-    protected $queryString = [
-        'search' => ['except' => ''],
-        'perPage' => ['except' => 10],
-        'filters.branch_type_id' => ['except' => ''],
-        'filters.status' => ['except' => ''],
-    ];
-
+   
+    /**
+     * Summary of boot
+     * @param BranchServices $branchServices
+     * @return void
+     */
     public function boot(BranchServices $branchServices): void
     {
         $this->branchServices = $branchServices;
     }
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
-
-    public function updatedPerPage($value): void
-    {
-        $this->perPage = $this->resolvePerPage((int) $value);
-        $this->resetPage();
-    }
-
-    public function updatedFilters(): void
-    {
-        $this->resetPage();
-    }
-
+    /**
+     * Summary of render
+     * @return View
+     */
     public function render(): View
     {
         $perPage = $this->resolvePerPage((int) $this->perPage);
@@ -126,6 +107,173 @@ class BranchesIndex extends Component
             'title' => __('Branch Management'),
         ]);
     }
+      /**
+       * Proses Insert Branch
+       */
+      public function openCreateModal(): void
+    {
+        if ($this->showEditModal) {
+            $this->cancelEditing();
+        }
+
+        $this->createForm = $this->defaultForm();
+        $this->createFeedback = '';
+        $this->resetErrorBag($this->formErrorKeys('createForm'));
+        $this->showCreateModal = true;
+    }
+
+    public function closeCreateModal(): void
+    {
+        $this->showCreateModal = false;
+        $this->createForm = $this->defaultForm();
+        $this->createFeedback = '';
+        $this->resetErrorBag($this->formErrorKeys('createForm'));
+    }
+
+    public function createBranch(): void
+    {
+        $this->validate(
+            $this->createRules(),
+            [],
+            $this->formAttributes('createForm'),
+        );
+
+        $this->branchServices->createBranch($this->createForm);
+
+        $this->createFeedback = __('Branch created successfully.');
+        $this->createForm = $this->defaultForm();
+        $this->resetErrorBag($this->formErrorKeys('createForm'));
+        $this->resetPage();
+    }
+    // End Proses Insert Branch
+
+    /**
+     * Proses Update Branch
+     */
+    public function startEditing(int $branchId): void
+    {
+        if ($this->showCreateModal) {
+            $this->closeCreateModal();
+        }
+
+        if ($this->showDeleteModal) {
+            $this->cancelDelete();
+        }
+
+        $branch = $this->branchServices->getBranchesById($branchId);
+
+        $this->editingBranchId = $branchId;
+        $this->editFeedback = '';
+        $this->editForm = [
+            'code' => $branch->code,
+            'name' => $branch->name,
+            'branch_type_id' => (string) $branch->branch_type_id,
+            'address' => $branch->address ?? '',
+            'phone' => $branch->phone ?? '',
+            'status' => (string) $branch->status,
+        ];
+
+        $this->resetErrorBag($this->formErrorKeys('editForm'));
+        $this->showEditModal = true;
+    }
+
+    public function cancelEditing(): void
+    {
+        $this->showEditModal = false;
+        $this->editingBranchId = null;
+        $this->editFeedback = '';
+        $this->editForm = $this->defaultForm();
+        $this->resetErrorBag($this->formErrorKeys('editForm'));
+    }
+
+    public function updateBranch(): void
+    {
+        if (! $this->editingBranchId) {
+            return;
+        }
+
+        $branch = $this->branchServices->getBranchesById($this->editingBranchId);
+
+        $this->validate(
+            $this->updateRules($branch->id),
+            [],
+            $this->formAttributes('editForm'),
+        );
+
+        $this->branchServices->updateBranch($branch, $this->editForm);
+
+        $this->editFeedback = __('Branch updated successfully.');
+        $this->resetErrorBag($this->formErrorKeys('editForm'));
+        $this->resetPage();
+    }
+    // End Proses Update Branch
+
+    /**
+     * Proses Delete Branch
+     */
+    public function confirmDelete(int $branchId): void
+    {
+        if ($this->showCreateModal) {
+            $this->closeCreateModal();
+        }
+
+        if ($this->showEditModal) {
+            $this->cancelEditing();
+        }
+
+        $branch = $this->branchServices->getBranchesById($branchId);
+
+        $this->deletingBranchId = $branchId;
+        $this->deleteContextName = $branch->name;
+        $this->deleteFeedback = '';
+        $this->resetErrorBag(['delete']);
+        $this->showDeleteModal = true;
+    }
+
+    public function cancelDelete(): void
+    {
+        $this->showDeleteModal = false;
+        $this->deletingBranchId = null;
+        $this->deleteContextName = null;
+        $this->deleteFeedback = '';
+        $this->resetErrorBag(['delete']);
+    }
+
+    public function deleteBranch(): void
+    {
+        if (! $this->deletingBranchId) {
+            return;
+        }
+
+        $branch = $this->branchServices->getBranchesById($this->deletingBranchId);
+        $name = $this->deleteContextName ?? $branch->name;
+
+        $this->branchServices->deleteBranch($branch);
+
+        $this->deleteFeedback = __('Branch ":name" deleted successfully.', ['name' => $name]);
+        $this->deletingBranchId = null;
+        $this->deleteContextName = null;
+        $this->showDeleteModal = false;
+        $this->resetPage();
+    }
+    // End Proses Delete Branch
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPerPage($value): void
+    {
+        $this->perPage = $this->resolvePerPage((int) $value);
+        $this->resetPage();
+    }
+
+    public function updatedFilters(): void
+    {
+        $this->resetPage();
+    }
+
+   
 
     protected function createRules(): array
     {

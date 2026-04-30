@@ -35,4 +35,20 @@ class Products extends Model
     {
         return $this->hasMany(Stocks::class, 'product_id');
     }
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovements::class, 'product_id');
+    }
+    public function productUnits()
+    {
+        return $this->hasMany(ProductUnits::class, 'product_id')
+            ->orderByDesc('is_base')
+            ->orderBy('id');
+    }
+    public function productPrices()
+    {
+        return $this->hasMany(ProductPrice::class, 'product_id')
+            ->orderByDesc('is_active')
+            ->orderBy('id');
+    }
 }

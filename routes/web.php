@@ -2,10 +2,16 @@
 
 use App\Livewire\Branch\BranchesIndex;
 use App\Livewire\Category\CategoriesIndex;
+use App\Livewire\Customer\CustomersIndex;
+use App\Livewire\CustomerType\CustomerTypesIndex;
+use App\Livewire\Inventory\Stock\StockIndex;
+use App\Livewire\ProductPrice\ProductPricesIndex;
+use App\Livewire\Product\ProductsIndex;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
+use App\Livewire\Supplier\SuppliersIndex;
 use App\Livewire\Unit\UnitsIndex;
 use App\Livewire\Usermanagement\PermissionsIndex;
 use App\Livewire\Usermanagement\RolesIndex;
@@ -31,8 +37,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('master/branches', BranchesIndex::class)->name('master.branches');
     Route::get('master/warehouses', WarehousesIndex::class)->name('master.warehouses');
+    Route::get('master/products', ProductsIndex::class)->name('master.products');
+    Route::get('master/product-prices', ProductPricesIndex::class)->name('master.product-prices');
     Route::get('master/product-categories', CategoriesIndex::class)->name('master.product-categories');
     Route::get('master/product-units', UnitsIndex::class)->name('master.product-units');
+    Route::get('master/suppliers', SuppliersIndex::class)->name('master.suppliers');
+    Route::get('master/customers', CustomersIndex::class)->name('master.customers');
+    Route::get('master/customer-types', CustomerTypesIndex::class)->name('master.customer-types');
+
+    Route::get('inventory/stocks', StockIndex::class)->name('inventory.stocks');
 
     Route::get('user-management/users', UsersIndex::class)->name('user-management.users');
     Route::get('user-management/roles', RolesIndex::class)->name('user-management.roles');

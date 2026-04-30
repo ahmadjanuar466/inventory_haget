@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Livewire\Branch\Traits;
+namespace App\Livewire\Product\Traits;
 
-trait Insert
+trait ProductInsert
 {
     public function openCreateModal(): void
     {
         if ($this->showEditModal) {
             $this->cancelEditing();
+        }
+
+        if ($this->showDeleteModal) {
+            $this->cancelDelete();
         }
 
         $this->createForm = $this->defaultForm();
@@ -24,17 +28,21 @@ trait Insert
         $this->resetErrorBag($this->formErrorKeys('createForm'));
     }
 
-    public function createBranch(): void
+    public function createProduct(): void
     {
+        $this->prepareProductFormForValidation('createForm');
+
         $this->validate(
             $this->createRules(),
             [],
             $this->formAttributes('createForm'),
         );
 
-        $this->branchServices->createBranch($this->createForm);
+        $this->productServices->createProduct(
+            $this->normalizeProductPayload($this->createForm),
+        );
 
-        $this->createFeedback = __('Branch created successfully.');
+        $this->createFeedback = __('Product created successfully.');
         $this->createForm = $this->defaultForm();
         $this->resetErrorBag($this->formErrorKeys('createForm'));
         $this->resetPage();

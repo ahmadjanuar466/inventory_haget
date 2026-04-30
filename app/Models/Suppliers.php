@@ -17,5 +17,14 @@ class Suppliers extends Model
         'is_active'
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
     public $timestamps = true;
+
+    public function purchaseReceipts()
+    {
+        return $this->hasMany(PurchaseReceipts::class, 'supplier_id');
+    }
 }

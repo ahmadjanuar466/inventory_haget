@@ -1,13 +1,17 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: docker/Dockerfile
+    image: webdevops/php-apache:8.3
     restart: unless-stopped
+    user: "1000:1000"
     depends_on:
       app_mysql:
         condition: service_healthy
+    working_dir: /app
     environment:
+      WEB_DOCUMENT_ROOT: /app/public
       APP_NAME: Laravel
       APP_ENV: local
       APP_DEBUG: "true"
@@ -62,11 +66,10 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - ./:/var/www/html
-      - vendor_data:/var/www/html/vendor
-      - build_data:/var/www/html/public/build
+      - ./:/app/
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/login >/dev/null || exit 1"]
+      test:
+        ["CMD-SHELL", "curl -fsS http://127.0.0.1/login >/dev/null || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -89,7 +92,11 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD --silent"]
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD --silent",
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -97,5 +104,3 @@ services:
 
 volumes:
   mysql_data:
-  vendor_data:
-  build_data:

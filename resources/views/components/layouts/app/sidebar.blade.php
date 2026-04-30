@@ -36,7 +36,17 @@
                 </flux:navlist.group>
 
                 <flux:navlist.group :heading="__('Product')" expandable
-                    :expanded="request()->routeIs('master.product-categories') || request()->routeIs('master.product-units')">
+                    :expanded="request()->routeIs('master.products') || request()->routeIs('master.product-prices') || request()->routeIs('master.product-categories') || request()->routeIs('master.product-units')">
+                    <flux:navlist.item icon="cube" :href="route('master.products')"
+                        :current="request()->routeIs('master.products')" wire:navigate>
+                        {{ __('List Product') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item icon="banknotes" :href="route('master.product-prices')"
+                        :current="request()->routeIs('master.product-prices')" wire:navigate>
+                        {{ __('Product Price') }}
+                    </flux:navlist.item>
+
                     <flux:navlist.item icon="tag" :href="route('master.product-categories')"
                         :current="request()->routeIs('master.product-categories')" wire:navigate>
                         {{ __('List Category Product') }}
@@ -47,6 +57,31 @@
                         {{ __('Units') }}
                     </flux:navlist.item>
                 </flux:navlist.group>
+
+                <flux:navlist.item icon="truck" :href="route('master.suppliers')"
+                    :current="request()->routeIs('master.suppliers')" wire:navigate>
+                    {{ __('Supplier') }}
+                </flux:navlist.item>
+
+                <flux:navlist.group :heading="__('Customer')" expandable
+                    :expanded="request()->routeIs('master.customers') || request()->routeIs('master.customer-types')">
+                    <flux:navlist.item icon="users" :href="route('master.customers')"
+                        :current="request()->routeIs('master.customers')" wire:navigate>
+                        {{ __('List Customer') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item icon="identification" :href="route('master.customer-types')"
+                        :current="request()->routeIs('master.customer-types')" wire:navigate>
+                        {{ __('Customer Type') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist.group>
+
+            <flux:navlist.group :heading="__('Inventory')">
+                <flux:navlist.item icon="clipboard-document-list" :href="route('inventory.stocks')"
+                    :current="request()->routeIs('inventory.stocks')" wire:navigate>
+                    {{ __('Stock') }}
+                </flux:navlist.item>
             </flux:navlist.group>
 
             <flux:navlist.group :heading="__('User Management')">

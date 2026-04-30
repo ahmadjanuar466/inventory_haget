@@ -19,8 +19,8 @@ class Customers extends Model
     ];
 
     public $timestamps = true;
-    // public function customertype()
-    // {
-    //     return $this->hasMany(CustomerType::class);
-    // }
+    public function customerType()
+    {
+        return $this->belongsTo(CustomerType::class, 'customer_type_id');
+    }
 }
