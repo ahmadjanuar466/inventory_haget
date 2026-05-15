@@ -84,6 +84,13 @@
                 </flux:navlist.item>
             </flux:navlist.group>
 
+            <flux:navlist.group :heading="__('Purchase')">
+                <flux:navlist.item icon="document-plus" :href="route('purchase.receipts')"
+                    :current="request()->routeIs('purchase.receipts')" wire:navigate>
+                    {{ __('Purchase Receipt') }}
+                </flux:navlist.item>
+            </flux:navlist.group>
+
             <flux:navlist.group :heading="__('User Management')">
                 <flux:navlist.item icon="users" :href="route('user-management.users')"
                     :current="request()->routeIs('user-management.users')" wire:navigate>

@@ -1,6 +1,7 @@
 @php
     $minStock = $product->min_stock !== null ? number_format((float) $product->min_stock, 2) : '-';
-    $additionalUnits = $product->productUnits->where('is_base', 0);
+    $stockUnit = $product->productUnits->firstWhere('is_active', 1)
+        ?? $product->productUnits->first();
 @endphp
 
 <tr class="transition hover:bg-[#142a28]/60">
@@ -15,15 +16,20 @@
         <span class="text-[#a9c2bd]">{{ $product->categories->name ?? __('No category') }}</span>
     </td>
     <td class="px-4 py-3">
-        <span class="text-[#a9c2bd]">{{ $product->units->name ?? __('No unit') }}</span>
+        <div class="font-semibold text-[#f4f1ec]">
+            {{ __('Purchase: :unit', ['unit' => $product->units->name ?? __('No unit')]) }}
+        </div>
 
-        @if ($additionalUnits->isNotEmpty())
-            <div class="mt-2 space-y-1 text-xs text-[#a9c2bd]">
-                @foreach ($additionalUnits as $productUnit)
-                    <div>
-                        {{ __('1 :base = :qty :unit', ['base' => $product->units->name ?? __('Base Unit'), 'qty' => $productUnit->conversion_qty, 'unit' => $productUnit->unit->name ?? __('Unit')]) }}
-                    </div>
-                @endforeach
+        @if ($stockUnit)
+            <div class="mt-2 text-xs text-[#a9c2bd]">
+                {{ __('Stock: :unit', ['unit' => $stockUnit->unit->name ?? __('No unit')]) }}
+            </div>
+            <div class="mt-1 text-xs text-[#a9c2bd]">
+                {{ __('1 :purchaseUnit = :qty :stockUnit', [
+                    'purchaseUnit' => $product->units->name ?? __('Purchase Unit'),
+                    'qty' => $stockUnit->conversion_qty,
+                    'stockUnit' => $stockUnit->unit->name ?? __('Stock Unit'),
+                ]) }}
             </div>
         @endif
     </td>

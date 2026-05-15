@@ -9,30 +9,15 @@ class ProductUnitImpl implements ProductUnitServices
 {
     public function syncProductUnits(Products $product, int $baseUnitId, array $attributes = []): void
     {
-        $payloads = collect($attributes)
-            ->map(function ($item) {
-                return [
-                    'unit_id' => (int) Arr::get($item, 'unit_id', 0),
-                    'conversion_qty' => $this->resolveConversionQty($item),
-                    'is_active' => (int) Arr::get($item, 'is_active', 1),
-                    'is_base' => 0,
-                ];
-            })
-            ->filter(function (array $item) use ($baseUnitId) {
-                return $item['unit_id'] > 0
-                    && $item['unit_id'] !== $baseUnitId
-                    && is_numeric($item['conversion_qty'])
-                    && (float) $item['conversion_qty'] > 0;
-            })
-            ->unique('unit_id')
-            ->values()
-            ->prepend([
-                'unit_id' => $baseUnitId,
-                'conversion_qty' => 1,
-                'is_active' => 1,
-                'is_base' => 1,
-            ])
-            ->all();
+        $conversion = collect($attributes)->first();
+        $stockUnitId = (int) Arr::get((array) $conversion, 'unit_id', $baseUnitId);
+
+        $payloads = [[
+            'unit_id' => $stockUnitId,
+            'conversion_qty' => $this->resolveConversionQty((array) $conversion),
+            'is_active' => (int) Arr::get((array) $conversion, 'is_active', 1),
+            'is_base' => $stockUnitId === $baseUnitId ? 1 : 0,
+        ]];
 
         $product->productUnits()->delete();
         $product->productUnits()->createMany($payloads);

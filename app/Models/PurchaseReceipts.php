@@ -14,6 +14,7 @@ class PurchaseReceipts extends Model
         'supplier_id',
         'warehouse_id',
         'invoice_no',
+        'invoice_file',
         'status',
         'subtotal',
         'discount_amount',

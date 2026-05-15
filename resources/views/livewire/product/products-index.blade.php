@@ -27,7 +27,7 @@
                 </flux:select>
 
                 <flux:select wire:model.live="filters.units_id" class="sm:w-44">
-                    <option value="">{{ __('All Units') }}</option>
+                    <option value="">{{ __('All Purchase Units') }}</option>
                     @foreach ($unitOptions as $unit)
                         <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                     @endforeach
@@ -49,7 +49,7 @@
         </x-table-navbar>
 
         @php
-            $dtHead = ['SKU', 'Product', 'Category', 'Unit', 'Status', 'Actions'];
+            $dtHead = ['SKU', 'Product', 'Category', 'Units', 'Status', 'Actions'];
         @endphp
 
         <x-table-custom>
@@ -82,8 +82,8 @@
                     @endforeach
                 </flux:select>
 
-                <flux:select wire:model.live="createForm.units_id" :label="__('Base Unit')" required>
-                    <option value="">{{ __('Select unit') }}</option>
+                <flux:select wire:model.live="createForm.units_id" :label="__('Purchase Unit')" required>
+                    <option value="">{{ __('Select purchase unit') }}</option>
                     @foreach ($unitOptions as $unit)
                         <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                     @endforeach
@@ -113,75 +113,62 @@
             <div class="space-y-4 rounded-xl border border-[#142a28]/70 bg-[#10211f]/40 p-4">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div class="space-y-1">
-                        <flux:heading size="lg">{{ __('Additional Units') }}</flux:heading>
+                        <flux:heading size="lg">{{ __('Unit Conversion') }}</flux:heading>
                         <flux:text variant="subtle">
-                            {{ __('Base unit is saved automatically as 1 unit. Conversion qty can be left blank to use 1, or filled manually, for example 1 Box = 12 Pcs.') }}
+                            {{ __('Set how purchase quantity is converted into stock quantity.') }}
                         </flux:text>
                     </div>
-
-                    @if ($createForm['units_id'] !== '')
-                        <flux:button type="button" variant="ghost" wire:click="addProductUnitRow('createForm')">
-                            {{ __('Add Conversion Unit') }}
-                        </flux:button>
-                    @endif
                 </div>
 
                 @php
                     $createBaseUnit = $unitOptions->firstWhere('id', (int) ($createForm['units_id'] ?? 0));
+                    $createStockUnit = $unitOptions->firstWhere('id', (int) ($createForm['product_units'][0]['unit_id'] ?? 0));
                 @endphp
 
                 @if ($createBaseUnit)
                     <div class="rounded-lg border border-[#142a28]/60 bg-[#1c3432]/70 px-4 py-3 text-sm text-[#a9c2bd]">
-                        {{ __('Base unit will be saved as 1 :unit. Leave conversion qty empty to use 1, or fill a custom value.', ['unit' => $createBaseUnit->name]) }}
+                        {{ __('Purchase quantity will be entered in :unit.', ['unit' => $createBaseUnit->name]) }}
                     </div>
                 @else
                     <div class="rounded-lg border border-[#142a28]/60 bg-[#1c3432]/70 px-4 py-3 text-sm text-[#a9c2bd]">
-                        {{ __('Select a base unit first before adding unit conversions.') }}
+                        {{ __('Select a purchase unit first before setting stock conversion.') }}
                     </div>
                 @endif
 
-                @foreach ($createForm['product_units'] as $index => $productUnit)
-                    @php
-                        $selectedUnit = $unitOptions->firstWhere('id', (int) ($productUnit['unit_id'] ?? 0));
-                    @endphp
-
-                    <div wire:key="create-product-unit-{{ $index }}"
+                @if ($createBaseUnit && isset($createForm['product_units'][0]))
+                    <div wire:key="create-product-unit"
                         class="space-y-3 rounded-lg border border-[#142a28]/60 bg-[#1c3432]/50 p-4">
-                        <div class="grid gap-4 md:grid-cols-[1.5fr_1fr_1fr_auto]">
-                            <flux:select wire:model.defer="createForm.product_units.{{ $index }}.unit_id"
-                                :label="__('Additional Unit')">
-                                <option value="">{{ __('Select unit') }}</option>
+                        <div class="grid gap-4 md:grid-cols-3">
+                            <flux:select wire:model.live="createForm.product_units.0.unit_id"
+                                :label="__('Stock Unit')" required>
+                                <option value="">{{ __('Select stock unit') }}</option>
                                 @foreach ($unitOptions as $unit)
-                                    @if ((string) $unit->id !== (string) ($createForm['units_id'] ?? ''))
-                                        <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                                    @endif
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                                 @endforeach
                             </flux:select>
 
-                            <flux:input wire:model.defer="createForm.product_units.{{ $index }}.conversion_qty"
-                                :label="__('Qty for Selected Unit')" type="text" inputmode="decimal"
-                                placeholder="{{ __('Leave blank for 1, or example: 12') }}" />
+                            <flux:input wire:model.defer="createForm.product_units.0.conversion_qty"
+                                :label="__('Conversion Qty')" type="text" inputmode="decimal"
+                                placeholder="{{ __('Example: 12') }}" required />
 
-                            <flux:select wire:model.defer="createForm.product_units.{{ $index }}.is_active"
+                            <flux:select wire:model.defer="createForm.product_units.0.is_active"
                                 :label="__('Status')" required>
                                 <option value="1">{{ __('Active') }}</option>
                                 <option value="0">{{ __('Inactive') }}</option>
                             </flux:select>
-
-                            <div class="flex items-end">
-                                <flux:button type="button" variant="danger" wire:click="removeProductUnitRow('createForm', {{ $index }})">
-                                    {{ __('Remove') }}
-                                </flux:button>
-                            </div>
                         </div>
 
-                        @if ($createBaseUnit && $selectedUnit && ($productUnit['conversion_qty'] ?? '') !== '')
+                        @if (($createForm['product_units'][0]['conversion_qty'] ?? '') !== '')
                             <p class="text-sm text-[#a9c2bd]">
-                                {{ __('1 :base = :qty :unit', ['base' => $createBaseUnit->name, 'qty' => $productUnit['conversion_qty'], 'unit' => $selectedUnit->name]) }}
+                                {{ __('1 :purchaseUnit = :qty :stockUnit', [
+                                    'purchaseUnit' => $createBaseUnit->name,
+                                    'qty' => $createForm['product_units'][0]['conversion_qty'],
+                                    'stockUnit' => $createStockUnit->name ?? __('Stock Unit'),
+                                ]) }}
                             </p>
                         @endif
                     </div>
-                @endforeach
+                @endif
             </div>
 
             <div class="flex items-center justify-end gap-3 pt-2">
@@ -221,8 +208,8 @@
                     @endforeach
                 </flux:select>
 
-                <flux:select wire:model.live="editForm.units_id" :label="__('Base Unit')" required>
-                    <option value="">{{ __('Select unit') }}</option>
+                <flux:select wire:model.live="editForm.units_id" :label="__('Purchase Unit')" required>
+                    <option value="">{{ __('Select purchase unit') }}</option>
                     @foreach ($unitOptions as $unit)
                         <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                     @endforeach
@@ -252,75 +239,62 @@
             <div class="space-y-4 rounded-xl border border-[#142a28]/70 bg-[#10211f]/40 p-4">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div class="space-y-1">
-                        <flux:heading size="lg">{{ __('Additional Units') }}</flux:heading>
+                        <flux:heading size="lg">{{ __('Unit Conversion') }}</flux:heading>
                         <flux:text variant="subtle">
-                            {{ __('Base unit is saved automatically as 1 unit. Conversion qty can be left blank to use 1, or filled manually, for example 1 Box = 12 Pcs.') }}
+                            {{ __('Set how purchase quantity is converted into stock quantity.') }}
                         </flux:text>
                     </div>
-
-                    @if ($editForm['units_id'] !== '')
-                        <flux:button type="button" variant="ghost" wire:click="addProductUnitRow('editForm')">
-                            {{ __('Add Conversion Unit') }}
-                        </flux:button>
-                    @endif
                 </div>
 
                 @php
                     $editBaseUnit = $unitOptions->firstWhere('id', (int) ($editForm['units_id'] ?? 0));
+                    $editStockUnit = $unitOptions->firstWhere('id', (int) ($editForm['product_units'][0]['unit_id'] ?? 0));
                 @endphp
 
                 @if ($editBaseUnit)
                     <div class="rounded-lg border border-[#142a28]/60 bg-[#1c3432]/70 px-4 py-3 text-sm text-[#a9c2bd]">
-                        {{ __('Base unit will be saved as 1 :unit. Leave conversion qty empty to use 1, or fill a custom value.', ['unit' => $editBaseUnit->name]) }}
+                        {{ __('Purchase quantity will be entered in :unit.', ['unit' => $editBaseUnit->name]) }}
                     </div>
                 @else
                     <div class="rounded-lg border border-[#142a28]/60 bg-[#1c3432]/70 px-4 py-3 text-sm text-[#a9c2bd]">
-                        {{ __('Select a base unit first before adding unit conversions.') }}
+                        {{ __('Select a purchase unit first before setting stock conversion.') }}
                     </div>
                 @endif
 
-                @foreach ($editForm['product_units'] as $index => $productUnit)
-                    @php
-                        $selectedUnit = $unitOptions->firstWhere('id', (int) ($productUnit['unit_id'] ?? 0));
-                    @endphp
-
-                    <div wire:key="edit-product-unit-{{ $index }}"
+                @if ($editBaseUnit && isset($editForm['product_units'][0]))
+                    <div wire:key="edit-product-unit"
                         class="space-y-3 rounded-lg border border-[#142a28]/60 bg-[#1c3432]/50 p-4">
-                        <div class="grid gap-4 md:grid-cols-[1.5fr_1fr_1fr_auto]">
-                            <flux:select wire:model.defer="editForm.product_units.{{ $index }}.unit_id"
-                                :label="__('Additional Unit')">
-                                <option value="">{{ __('Select unit') }}</option>
+                        <div class="grid gap-4 md:grid-cols-3">
+                            <flux:select wire:model.live="editForm.product_units.0.unit_id"
+                                :label="__('Stock Unit')" required>
+                                <option value="">{{ __('Select stock unit') }}</option>
                                 @foreach ($unitOptions as $unit)
-                                    @if ((string) $unit->id !== (string) ($editForm['units_id'] ?? ''))
-                                        <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                                    @endif
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                                 @endforeach
                             </flux:select>
 
-                            <flux:input wire:model.defer="editForm.product_units.{{ $index }}.conversion_qty"
-                                :label="__('Qty for Selected Unit')" type="text" inputmode="decimal"
-                                placeholder="{{ __('Leave blank for 1, or example: 12') }}" />
+                            <flux:input wire:model.defer="editForm.product_units.0.conversion_qty"
+                                :label="__('Conversion Qty')" type="text" inputmode="decimal"
+                                placeholder="{{ __('Example: 12') }}" required />
 
-                            <flux:select wire:model.defer="editForm.product_units.{{ $index }}.is_active"
+                            <flux:select wire:model.defer="editForm.product_units.0.is_active"
                                 :label="__('Status')" required>
                                 <option value="1">{{ __('Active') }}</option>
                                 <option value="0">{{ __('Inactive') }}</option>
                             </flux:select>
-
-                            <div class="flex items-end">
-                                <flux:button type="button" variant="danger" wire:click="removeProductUnitRow('editForm', {{ $index }})">
-                                    {{ __('Remove') }}
-                                </flux:button>
-                            </div>
                         </div>
 
-                        @if ($editBaseUnit && $selectedUnit && ($productUnit['conversion_qty'] ?? '') !== '')
+                        @if (($editForm['product_units'][0]['conversion_qty'] ?? '') !== '')
                             <p class="text-sm text-[#a9c2bd]">
-                                {{ __('1 :base = :qty :unit', ['base' => $editBaseUnit->name, 'qty' => $productUnit['conversion_qty'], 'unit' => $selectedUnit->name]) }}
+                                {{ __('1 :purchaseUnit = :qty :stockUnit', [
+                                    'purchaseUnit' => $editBaseUnit->name,
+                                    'qty' => $editForm['product_units'][0]['conversion_qty'],
+                                    'stockUnit' => $editStockUnit->name ?? __('Stock Unit'),
+                                ]) }}
                             </p>
                         @endif
                     </div>
-                @endforeach
+                @endif
             </div>
 
             <div class="flex items-center justify-end gap-3 pt-2">

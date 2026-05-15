@@ -109,7 +109,7 @@ class StockImpl implements StockServices
     public function paginateStock(string $search = '', int $perPage = 10, array $filters = []): LengthAwarePaginator
     {
         return Stocks::query()
-            ->with(['product.units', 'warehouse'])
+            ->with(['product.units', 'product.productUnits.unit', 'warehouse'])
             ->when($search, function ($query) use ($search) {
                 $query->whereHas('product', function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")

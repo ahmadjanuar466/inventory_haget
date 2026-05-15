@@ -18,24 +18,21 @@ trait ProductUpdate
 
         $this->editingProductId = $productId;
         $this->editFeedback = '';
-        $productUnits = $product->productUnits
-            ->where('is_base', 0)
-            ->values()
-            ->map(function ($productUnit) {
-                return [
-                    'unit_id' => (string) $productUnit->unit_id,
-                    'conversion_qty' => (string) $productUnit->conversion_qty,
-                    'is_active' => (string) $productUnit->is_active,
-                ];
-            })
-            ->all();
+        $productUnit = $product->productUnits->firstWhere('is_active', 1)
+            ?? $product->productUnits->first();
+
+        $productUnits = [[
+            'unit_id' => $productUnit ? (string) $productUnit->unit_id : (string) $product->units_id,
+            'conversion_qty' => $productUnit ? (string) $productUnit->conversion_qty : '',
+            'is_active' => $productUnit ? (string) $productUnit->is_active : '1',
+        ]];
 
         $this->editForm = [
             'sku' => $product->sku,
             'name' => $product->name,
             'category_id' => (string) $product->category_id,
             'units_id' => (string) $product->units_id,
-            'product_units' => $productUnits !== [] ? $productUnits : [$this->defaultProductUnitRow()],
+            'product_units' => $productUnits,
             'track_stock' => (string) $product->track_stock,
             'has_expiry' => (string) $product->has_expiry,
             'min_stock' => $product->min_stock !== null ? (string) $product->min_stock : '',

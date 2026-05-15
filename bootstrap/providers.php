@@ -9,6 +9,7 @@ return [
     App\Providers\FortifyServiceProvider::class,
     App\Providers\ProductPriceProvider::class,
     App\Providers\ProductProvider::class,
+    App\Providers\PurchaseReceiptItemProvider::class,
     App\Providers\PurchaseReceiptProvider::class,
     App\Providers\StockMovementProvider::class,
     App\Providers\StockProvider::class,

@@ -13,7 +13,7 @@ class ProductUnitImplTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_saves_manual_conversion_qty_for_additional_units(): void
+    public function test_it_saves_one_stock_unit_conversion_from_purchase_unit(): void
     {
         [$product, $baseUnit, $additionalUnit] = $this->makeProductFixture();
 
@@ -29,23 +29,17 @@ class ProductUnitImplTest extends TestCase
 
         $product->refresh()->load('productUnits');
 
-        $this->assertCount(2, $product->productUnits);
+        $this->assertCount(1, $product->productUnits);
 
-        $baseRow = $product->productUnits->firstWhere('is_base', 1);
-        $additionalRow = $product->productUnits->firstWhere('unit_id', $additionalUnit->id);
+        $stockUnitRow = $product->productUnits->first();
 
-        $this->assertNotNull($baseRow);
-        $this->assertSame($baseUnit->id, $baseRow->unit_id);
-        $this->assertSame('1.00', (string) $baseRow->conversion_qty);
-
-        $this->assertNotNull($additionalRow);
-        $this->assertSame($additionalUnit->id, $additionalRow->unit_id);
-        $this->assertSame('12.50', (string) $additionalRow->conversion_qty);
-        $this->assertSame(1, $additionalRow->is_active);
-        $this->assertSame(0, $additionalRow->is_base);
+        $this->assertSame($additionalUnit->id, $stockUnitRow->unit_id);
+        $this->assertSame('12.50', (string) $stockUnitRow->conversion_qty);
+        $this->assertSame(1, $stockUnitRow->is_active);
+        $this->assertSame(0, $stockUnitRow->is_base);
     }
 
-    public function test_it_defaults_blank_conversion_qty_to_one(): void
+    public function test_it_defaults_blank_conversion_qty_to_one_for_stock_unit(): void
     {
         [$product, $baseUnit, $additionalUnit] = $this->makeProductFixture();
 
@@ -61,10 +55,11 @@ class ProductUnitImplTest extends TestCase
 
         $product->refresh()->load('productUnits');
 
-        $additionalRow = $product->productUnits->firstWhere('unit_id', $additionalUnit->id);
+        $stockUnitRow = $product->productUnits->firstWhere('unit_id', $additionalUnit->id);
 
-        $this->assertNotNull($additionalRow);
-        $this->assertSame('1.00', (string) $additionalRow->conversion_qty);
+        $this->assertNotNull($stockUnitRow);
+        $this->assertSame('1.00', (string) $stockUnitRow->conversion_qty);
+        $this->assertSame(0, $stockUnitRow->is_base);
     }
 
     protected function makeProductFixture(): array

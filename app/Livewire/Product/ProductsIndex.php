@@ -171,16 +171,12 @@ class ProductsIndex extends Component
             "{$form}.name" => ['required', 'string', 'max:150'],
             "{$form}.category_id" => ['required', Rule::exists('categories', 'id')],
             "{$form}.units_id" => ['required', Rule::exists('units', 'id')],
-            "{$form}.product_units" => ['array'],
+            "{$form}.product_units" => ['required', 'array', 'size:1'],
             "{$form}.product_units.*.unit_id" => [
                 'required',
-                'distinct',
                 Rule::exists('units', 'id'),
-                Rule::notIn(array_filter([
-                    data_get($this, "{$form}.units_id"),
-                ])),
             ],
-            "{$form}.product_units.*.conversion_qty" => ['nullable', 'numeric', 'gt:0'],
+            "{$form}.product_units.*.conversion_qty" => ['required', 'numeric', 'gt:0'],
             "{$form}.product_units.*.is_active" => ['required', Rule::in(['0', '1', 0, 1])],
             "{$form}.track_stock" => ['required', Rule::in(['0', '1', 0, 1])],
             "{$form}.has_expiry" => ['required', Rule::in(['0', '1', 0, 1])],
@@ -195,10 +191,10 @@ class ProductsIndex extends Component
             "{$form}.sku" => __('SKU'),
             "{$form}.name" => __('Name'),
             "{$form}.category_id" => __('Category'),
-            "{$form}.units_id" => __('Base Unit'),
-            "{$form}.product_units.*.unit_id" => __('Additional Unit'),
-            "{$form}.product_units.*.conversion_qty" => __('Qty for Selected Unit'),
-            "{$form}.product_units.*.is_active" => __('Unit Status'),
+            "{$form}.units_id" => __('Purchase Unit'),
+            "{$form}.product_units.*.unit_id" => __('Stock Unit'),
+            "{$form}.product_units.*.conversion_qty" => __('Conversion Qty'),
+            "{$form}.product_units.*.is_active" => __('Conversion Status'),
             "{$form}.track_stock" => __('Track Stock'),
             "{$form}.has_expiry" => __('Has Expiry'),
             "{$form}.min_stock" => __('Minimum Stock'),
@@ -252,13 +248,14 @@ class ProductsIndex extends Component
         }
 
         $payload['product_units'] = collect($payload['product_units'] ?? [])
-            ->map(function ($item) {
+            ->map(function ($item) use ($payload) {
                 return [
-                    'unit_id' => ($item['unit_id'] ?? '') === '' ? null : (int) $item['unit_id'],
+                    'unit_id' => ($item['unit_id'] ?? '') === '' ? (int) ($payload['units_id'] ?? 0) : (int) $item['unit_id'],
                     'conversion_qty' => $this->nullableNormalizedDecimal($item['conversion_qty'] ?? ''),
                     'is_active' => ($item['is_active'] ?? '') === '' ? 1 : (int) $item['is_active'],
                 ];
             })
+            ->take(1)
             ->values()
             ->all();
 
@@ -276,6 +273,7 @@ class ProductsIndex extends Component
 
         $state = $this->{$form};
         $state['product_units'] = $this->sanitizeProductUnitRows($state['product_units'] ?? []);
+        $state['product_units'] = $this->syncSingleConversionRow($state, $state['units_id'] ?? '');
         $this->{$form} = $state;
     }
 
@@ -290,8 +288,9 @@ class ProductsIndex extends Component
                 ];
             })
             ->filter(function (array $row) {
-                return ! ($row['unit_id'] === '' && $row['conversion_qty'] === '');
+                return $row['conversion_qty'] !== '';
             })
+            ->take(1)
             ->values()
             ->all();
     }
@@ -303,31 +302,6 @@ class ProductsIndex extends Component
             'conversion_qty' => '',
             'is_active' => '1',
         ];
-    }
-
-    public function addProductUnitRow(string $form): void
-    {
-        if (! in_array($form, ['createForm', 'editForm'], true)) {
-            return;
-        }
-
-        $this->{$form}['product_units'][] = $this->defaultProductUnitRow();
-        $this->resetErrorBag($this->formErrorKeys($form));
-    }
-
-    public function removeProductUnitRow(string $form, int $index): void
-    {
-        if (! in_array($form, ['createForm', 'editForm'], true)) {
-            return;
-        }
-
-        if (! isset($this->{$form}['product_units'][$index])) {
-            return;
-        }
-
-        unset($this->{$form}['product_units'][$index]);
-        $this->{$form}['product_units'] = array_values($this->{$form}['product_units']);
-        $this->resetErrorBag($this->formErrorKeys($form));
     }
 
     protected function resolvePerPage(int $value): int
@@ -349,9 +323,20 @@ class ProductsIndex extends Component
             return;
         }
 
-        if (empty($this->{$form}['product_units'])) {
-            $this->{$form}['product_units'] = [$this->defaultProductUnitRow()];
+        $this->{$form}['product_units'] = $this->syncSingleConversionRow($this->{$form}, $baseUnitId);
+    }
+
+    protected function syncSingleConversionRow(array $state, mixed $baseUnitId): array
+    {
+        if ((string) $baseUnitId === '') {
+            return [];
         }
+
+        $row = $state['product_units'][0] ?? $this->defaultProductUnitRow();
+        $row['unit_id'] = (string) ($row['unit_id'] ?? $baseUnitId);
+        $row['is_active'] = (string) ($row['is_active'] ?? '1');
+
+        return [$row];
     }
 
     protected function normalizeDecimalInput(mixed $value): string

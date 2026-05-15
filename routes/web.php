@@ -7,6 +7,7 @@ use App\Livewire\CustomerType\CustomerTypesIndex;
 use App\Livewire\Inventory\Stock\StockIndex;
 use App\Livewire\ProductPrice\ProductPricesIndex;
 use App\Livewire\Product\ProductsIndex;
+use App\Livewire\Purchase\PurchaseReceiptsIndex;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -46,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('master/customer-types', CustomerTypesIndex::class)->name('master.customer-types');
 
     Route::get('inventory/stocks', StockIndex::class)->name('inventory.stocks');
+    Route::get('purchase/receipts', PurchaseReceiptsIndex::class)->name('purchase.receipts');
 
     Route::get('user-management/users', UsersIndex::class)->name('user-management.users');
     Route::get('user-management/roles', RolesIndex::class)->name('user-management.roles');

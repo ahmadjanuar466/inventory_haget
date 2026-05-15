@@ -25,12 +25,18 @@
             </x-table-navbar-search-button>
         </x-table-navbar>
 
-        @php
-            $dtHead = ['Product', 'Warehouse', 'On Hand', 'Reserved', 'Available', 'Last Movement', 'Actions'];
-        @endphp
-
         <x-table-custom>
-            <x-table-head :head="$dtHead"></x-table-head>
+            <thead class="bg-[#142a28]/80 text-xs uppercase tracking-wide text-[#a9c2bd]">
+                <tr>
+                    <th class="px-4 py-3">{{ __('Product') }}</th>
+                    <th class="px-4 py-3">{{ __('Warehouse') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('On Hand') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('Reserved') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('Available') }}</th>
+                    <th class="px-4 py-3">{{ __('Last Movement') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('Actions') }}</th>
+                </tr>
+            </thead>
 
             <x-table-body :items="$stocks" row-view="livewire.inventory.stock.partials.stock-row" :columns="7"
                 item-key="stock" empty-message="{{ __('No stock data found.') }}" />
